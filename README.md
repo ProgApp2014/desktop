@@ -1,8 +1,6 @@
 Desktop - Programación de Aplicaciones
 ==========================================
 
-##Desktop
-
 ####Integrantes Grupo 3 - 2014
 Andres Botta   - andresbotta@gmail.com
 
