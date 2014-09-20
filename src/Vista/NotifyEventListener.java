@@ -4,19 +4,14 @@
  * and open the template in the editor.
  */
 
-package progdesktop;
+package Vista;
+
+import java.util.EventListener;
 
 /**
  *
  * @author rodro
  */
-public class ProgDesktop {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
+public interface NotifyEventListener extends EventListener{
+    public void notifyEvent(NotifyEvent evt);
 }
