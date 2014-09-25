@@ -11,6 +11,7 @@ import Controlador.Clases.Utils;
 
 import Controlador.DataTypes.DataEspecificacionProducto;
 import Controlador.DataTypes.DataOrdenCompra;
+import controlador.clases.ProxyOrden;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -40,7 +41,7 @@ import javax.swing.event.ListSelectionListener;
  */
 public class VerInformacionOrden extends JInternalFrame {
 
-    private final IControladorOrdenes controlarOrden;
+    private final ProxyOrden controlarOrden;
     private final JPanel contenedor;
     private final JList<String> ordenList;
     private final JLabel nroRef;
@@ -61,7 +62,7 @@ public class VerInformacionOrden extends JInternalFrame {
     private final JButton borrarBtn;
     private boolean modoEdicion;
 
-    public VerInformacionOrden(IControladorOrdenes ICO, boolean modoEdicion) {
+    public VerInformacionOrden(ProxyOrden ICO, boolean modoEdicion) {
         
         this.modoEdicion = modoEdicion;
         controlarOrden = ICO;

@@ -9,6 +9,7 @@ import Controlador.Clases.IControladorOrdenes;
 import Controlador.Clases.ManejadorOrdenes;
 import Controlador.DataTypes.DataOrdenCompra;
 import static Vista.VentanaPrincipal.controlarProducto;
+import controlador.clases.ProxyOrden;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -37,7 +38,7 @@ import javax.swing.table.TableModel;
  */
 public class GenerarOrdenDeCompra extends JInternalFrame {
 
-    private final IControladorOrdenes controlarOrden;
+    private final ProxyOrden controlarOrden;
     private final ElegirCategoriaComponente treePane;
     private final JPanel listaProductosPanel;
     private final JPanel offsetleft;
@@ -56,7 +57,7 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
     private final JPanel buttonContainerNorth;
     private JTable listarClientes;
 
-    GenerarOrdenDeCompra(IControladorOrdenes controlarOrden) {
+    GenerarOrdenDeCompra(ProxyOrden controlarOrden) {
         this.controlarOrden = controlarOrden;
         setBounds(50, 50, 1000, 500);
         setVisible(true);
@@ -198,11 +199,10 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
     }
 
     private void ordenar() {
-        Integer id= controlarOrden.getNextId();
-        DataOrdenCompra dataOrden = new DataOrdenCompra(id);
+     
+        DataOrdenCompra dataOrden = new DataOrdenCompra(0);
         controlarOrden.guardarOrden(dataOrden);
-        
-        System.out.println(ManejadorOrdenes.getInstance().obtenerOrdenes().get(id)+" orden");
+         
         JOptionPane.showMessageDialog(this, "Su Orden se ha creado correctamente", "Validacion", JOptionPane.INFORMATION_MESSAGE);
 
         dispose();

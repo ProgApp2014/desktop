@@ -5,6 +5,9 @@ import Controlador.Clases.IControladorOrdenes;
 import Controlador.Clases.IControladorProductos;
 import Controlador.Clases.IControladorUsuarios;
 import Controlador.Clases.Utils;
+import clases.ProxyProducto;
+import clases.ProxyUsuario;
+import controlador.clases.ProxyOrden;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
@@ -44,9 +47,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public static Integer idUsuariosControlador;
     public static Integer idProductosControlador;
     public static Integer idOrdenesControlador;
-    public static IControladorUsuarios controlarUsuario;
-    public static IControladorProductos controlarProducto;
-    public static IControladorOrdenes controlarOrden;
+    public static ProxyUsuario controlarUsuario;
+    public static ProxyProducto controlarProducto;
+    public static ProxyOrden controlarOrden;
     private JInternalFrame registrarProductoVentana;
     private JInternalFrame verInfoClienteVentana;
     private JInternalFrame verInfoProveedorVentana;
@@ -58,12 +61,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public VentanaPrincipal() {
         initComponents();
 
-        idUsuariosControlador = Fabrica.getInstance().getControladorUsuarios(null).getId();
-        idProductosControlador = Fabrica.getInstance().getControladorProductos(null).getId();
-        idOrdenesControlador = Fabrica.getInstance().getControladorOrdenes(null).getId();
-        controlarUsuario = Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador);
-        controlarProducto = Fabrica.getInstance().getControladorProductos(idProductosControlador);
-        controlarOrden = Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador);
+        
+        controlarUsuario = ProxyUsuario.getInstance();
+        controlarProducto = ProxyProducto.getInstance();
+        controlarOrden = ProxyOrden.getInstance();
     }
 
     private void initComponents() {

@@ -8,6 +8,7 @@ package Vista;
 import Controlador.Clases.Constantes;
 import Controlador.Clases.IControladorProductos;
 import Controlador.DataTypes.DataCategoria;
+import clases.ProxyProducto;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -38,10 +39,10 @@ class ElegirCategoriaComponente extends JPanel {
         }
     };
     private final ArrayList<String> selectedCategorias;
-    private final IControladorProductos cotrolador;
+    private final ProxyProducto cotrolador;
     private final JTree tree;
 
-    public ElegirCategoriaComponente(IControladorProductos controlador, Boolean ultimaCategoria) {
+    public ElegirCategoriaComponente(ProxyProducto controlador, Boolean ultimaCategoria) {
         this.cotrolador = controlador;
         selectedCategorias = new ArrayList();
         node = new DefaultMutableTreeNode(Constantes.CATEGORIA_ROOT);

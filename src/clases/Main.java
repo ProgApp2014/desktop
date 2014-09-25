@@ -22,7 +22,6 @@ public class Main {
  
           System.out.println(ProxyProducto.getInstance().listarCategorias());
           TreeParser c = new TreeParser();
-          recorrer(c.buildTree(ProxyProducto.getInstance().listarCategorias()));
       }
       
 }

@@ -9,6 +9,7 @@ import Controlador.Clases.IControladorProductos;
 import Controlador.DataTypes.DataCategoria;
 import Controlador.DataTypes.DataEspecificacionProducto;
 import Controlador.DataTypes.DataProveedor;
+import clases.ProxyProducto;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -38,7 +39,7 @@ public class VerInfoProductos extends JInternalFrame {
     private final ElegirCategoriaComponente treePane;
     private final JPanel InfoPanel;
     private final JPanel offsetleft;
-    private final IControladorProductos controlarProducto;
+    private final ProxyProducto controlarProducto;
 
     private int index;
     private final JPanel listaProductosPanel;
@@ -50,7 +51,7 @@ public class VerInfoProductos extends JInternalFrame {
     /**
      * Creates new form VerInfoProductos
      */
-    public VerInfoProductos(IControladorProductos controlarProducto) {
+    public VerInfoProductos(ProxyProducto controlarProducto) {
 
         this.controlarProducto = controlarProducto;
     

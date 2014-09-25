@@ -3,6 +3,7 @@ package Vista;
 import Controlador.Clases.IControladorUsuarios;
 import Controlador.DataTypes.DataCliente;
 import Controlador.DataTypes.DataProveedor;
+import clases.ProxyUsuario;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,14 +22,14 @@ import javax.swing.SpringLayout;
 
 class RegistrarUsuarioForm extends JInternalFrame {
 
-    private final IControladorUsuarios controlarUsuario;
+    private final ProxyUsuario controlarUsuario;
 //
     private final Formulario form;
 //
     private final SelectorImgUsuario sim;
     private boolean esProveedor;
 
-    public RegistrarUsuarioForm(IControladorUsuarios ICU) {
+    public RegistrarUsuarioForm(ProxyUsuario ICU) {
 
         controlarUsuario = ICU;
 
