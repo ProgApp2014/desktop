@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify                 y    
     private javax.swing.JMenuItem altaCategoriaOpt;
     private javax.swing.JMenuItem cancelarOrdOpt;
     private javax.swing.JMenu casosUsoMenu;
@@ -142,7 +142,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 registrarProdOptActionPerformed(evt);
             }
         });
-        productoMenu.add(registrarProdOpt);
+        
+        /**
+         * Segun los requerimientos de la tarea dos esta funcionalidad no se utiliza mas.
+         * al no agregar la opcion queda deshabilitada.
+         */
+        //productoMenu.add(registrarProdOpt);
 
         verInfoProdOpt.setText("Ver informacion de Producto");
         verInfoProdOpt.addActionListener(new java.awt.event.ActionListener() {
