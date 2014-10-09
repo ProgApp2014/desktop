@@ -11,7 +11,6 @@ import Controlador.DataTypes.DataCategoria;
 import Controlador.DataTypes.DataEspecificacionProducto;
 import Controlador.DataTypes.DataProducto;
 import Controlador.DataTypes.DataProveedor;
-import clases.ProxyProducto;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -49,7 +48,7 @@ public class ModificarInformacionProducto extends JInternalFrame {
     private ElegirCategoriaComponente treePane;
     private final JPanel InfoPanel;
     private final JPanel offsetleft;
-    private final ProxyProducto controlarProducto;
+    private final IControladorProductos controlarProducto;
 
     private int index;
     private final JPanel listaProductosPanel;
@@ -63,7 +62,7 @@ public class ModificarInformacionProducto extends JInternalFrame {
     /**
      * Creates new form VerInfoProductos
      */
-    public ModificarInformacionProducto(ProxyProducto controlarProducto) {
+    public ModificarInformacionProducto(IControladorProductos controlarProducto) {
 
         this.controlarProducto = controlarProducto;
 
@@ -80,7 +79,7 @@ public class ModificarInformacionProducto extends JInternalFrame {
                 openDialog();
             }
         });
-        treePane = new ElegirCategoriaComponente(controlarProducto, true);
+        treePane = new ElegirCategoriaComponente(controlarProducto.listarCategorias(), true);
         listaProductosPanel = new JPanel();
         listaProductosPanel.setLayout(new GridLayout(1, 0));
 
@@ -168,7 +167,7 @@ public class ModificarInformacionProducto extends JInternalFrame {
             return;
         }
 
-        DataEspecificacionProducto espProducto = new DataEspecificacionProducto(NroRef, titulo, descripcion, new HashMap(), precioReal, Proveedor, new ArrayList<String>(), new ArrayList<DataCategoria>(), new ArrayList());
+        DataEspecificacionProducto espProducto = new DataEspecificacionProducto(NroRef, titulo, descripcion, new HashMap(), precioReal, Proveedor, new ArrayList<String>(), new ArrayList<DataCategoria>(), new ArrayList(),new ArrayList());
 
         controlarProducto.modificarDatosEspecificacionProducto(espProducto);
 
@@ -186,8 +185,6 @@ public class ModificarInformacionProducto extends JInternalFrame {
         }
         controlarProducto.elegirProveedor(Proveedor.getNickname());
         controlarProducto.ingresarDatosProductos(espProducto);
-
-        controlarProducto.agregarMultiplesProductosAutogenerados(stockReal);
 
         categorias.forEach((cat) -> {
             controlarProducto.agregarCategoriaAEspecificacion(cat);
@@ -281,7 +278,7 @@ public class ModificarInformacionProducto extends JInternalFrame {
 
         ((JComboBox) form.getComponentByName("Proveedor")).setSelectedItem(dataProducto.getProveedor());
 
-        treePane = new ElegirCategoriaComponente(controlarProducto, false);
+        treePane = new ElegirCategoriaComponente(controlarProducto.listarCategorias(), false);
 
         sdi = new SelectorDeImagenes();
         sdi.setLocation(700, 10);

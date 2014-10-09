@@ -11,8 +11,6 @@ import Controlador.DataTypes.DataCategoria;
 import Controlador.DataTypes.DataEspecificacionProducto;
 import Controlador.DataTypes.DataProducto;
 import Controlador.DataTypes.DataProveedor;
-import clases.ProxyProducto;
-import clases.ProxyUsuario;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -39,10 +37,10 @@ public class RegistrarProducto extends javax.swing.JInternalFrame {
     private JDialog dialog;
     private ElegirCategoriaComponente treePane;
     private final Formulario form;
-    private final ProxyProducto controlarProducto;
+    private final IControladorProductos controlarProducto;
     private final SelectorDeImagenes sdi;
 
-    RegistrarProducto(ProxyProducto controlarProducto) {
+    RegistrarProducto(IControladorProductos controlarProducto) {
 
         this.controlarProducto = controlarProducto;
      
@@ -63,7 +61,7 @@ public class RegistrarProducto extends javax.swing.JInternalFrame {
         form.addField("Proveedor", "combo", controlarProducto.listarProveedores().toArray(),null);
 
 
-        treePane = new ElegirCategoriaComponente(controlarProducto, false);
+        treePane = new ElegirCategoriaComponente(controlarProducto.listarCategorias(), false);
         sdi = new SelectorDeImagenes();
         sdi.setLocation(700, 10);
 
@@ -154,7 +152,7 @@ public class RegistrarProducto extends javax.swing.JInternalFrame {
             return;
         }
 
-        DataEspecificacionProducto espProducto = new DataEspecificacionProducto(NroRef, titulo, descripcion, new HashMap(), precioReal, Proveedor, new ArrayList<String>(), new ArrayList<DataCategoria>(), new ArrayList());
+        DataEspecificacionProducto espProducto = new DataEspecificacionProducto(NroRef, titulo, descripcion, new HashMap(), precioReal, Proveedor, new ArrayList<String>(), new ArrayList<DataCategoria>(), new ArrayList(),new ArrayList());
         controlarProducto.elegirProveedor(Proveedor.getNickname());
         controlarProducto.ingresarDatosProductos(espProducto);
         

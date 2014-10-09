@@ -4,7 +4,6 @@ import Controlador.Clases.IControladorUsuarios;
 import Controlador.Clases.ManejadorUsuarios;
 import Controlador.Clases.Utils;
 import Controlador.DataTypes.DataProveedor;
-import clases.ProxyUsuario;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -45,13 +44,13 @@ class VerInformacionProveedorForm extends JInternalFrame {
     private final JTextField nombreCompaniaText;
     private final JTextField linkSitioText;
     private final JButton cerrarBtn;
-    private final ProxyUsuario controlarUsuario;
+    private final IControladorUsuarios controlarUsuario;
 
     private String imagen;
     private ImagePanel imagePanel;
     private final JPanel contenedorPic;
 
-    public VerInformacionProveedorForm(ProxyUsuario ICU) {
+    public VerInformacionProveedorForm(IControladorUsuarios ICU) {
 
         controlarUsuario = ICU;
 

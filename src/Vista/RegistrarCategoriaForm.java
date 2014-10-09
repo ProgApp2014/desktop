@@ -2,8 +2,6 @@ package Vista;
 
 import Controlador.Clases.IControladorProductos;
 import Controlador.DataTypes.DataCategoria;
-import clases.ProxyProducto;
-import controlador.clases.ProxyOrden;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -25,11 +23,11 @@ class RegistrarCategoriaForm extends JInternalFrame {
     private final JTextField nombreText;
     private final JButton guardarBtn;
     private final JButton cancelarBtn;
-    private final ProxyProducto controladorProducto;
+    private final IControladorProductos controladorProducto;
     private JDialog dialog;
     private final ElegirCategoriaComponente treePane;
 
-    public RegistrarCategoriaForm(ProxyProducto ICP) {
+    public RegistrarCategoriaForm(IControladorProductos ICP) {
 
         setBounds(50, 50, 700, 400);
         setVisible(true);
@@ -42,7 +40,7 @@ class RegistrarCategoriaForm extends JInternalFrame {
 
         controladorProducto = ICP;
 
-        treePane = new ElegirCategoriaComponente(controladorProducto, true);
+        treePane = new ElegirCategoriaComponente(controladorProducto.listarCategorias(), true);
         JButton padre = new JButton("Elegir Categoria Padre");
         padre.setSize(100, 40);
         padre.addActionListener(new ActionListener() {

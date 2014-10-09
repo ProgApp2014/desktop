@@ -8,11 +8,11 @@ package Vista;
 import Controlador.Clases.Constantes;
 import Controlador.Clases.IControladorProductos;
 import Controlador.DataTypes.DataCategoria;
-import clases.ProxyProducto;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import javax.swing.JPanel;
 import javax.swing.JTree;
@@ -39,11 +39,11 @@ class ElegirCategoriaComponente extends JPanel {
         }
     };
     private final ArrayList<String> selectedCategorias;
-    private final ProxyProducto cotrolador;
+    private final List<DataCategoria> categorias;
     private final JTree tree;
 
-    public ElegirCategoriaComponente(ProxyProducto controlador, Boolean ultimaCategoria) {
-        this.cotrolador = controlador;
+    public ElegirCategoriaComponente(List<DataCategoria> categorias, Boolean ultimaCategoria) {
+        this.categorias = categorias;
         selectedCategorias = new ArrayList();
         node = new DefaultMutableTreeNode(Constantes.CATEGORIA_ROOT);
          tree = new JTree(node);
@@ -100,7 +100,7 @@ class ElegirCategoriaComponente extends JPanel {
 
         categoriasAgregadas = new ArrayList();
 
-        cotrolador.listarCategorias().forEach((categoria) -> {
+        categorias.forEach((categoria) -> {
 
             DataCategoria auxDeBusqueda = categoria;
             NodoCategoria auxHuerfana = null;

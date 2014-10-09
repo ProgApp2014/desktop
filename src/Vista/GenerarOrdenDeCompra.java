@@ -8,8 +8,6 @@ package Vista;
 import Controlador.Clases.IControladorOrdenes;
 import Controlador.Clases.ManejadorOrdenes;
 import Controlador.DataTypes.DataOrdenCompra;
-import static Vista.VentanaPrincipal.controlarProducto;
-import controlador.clases.ProxyOrden;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -38,7 +36,7 @@ import javax.swing.table.TableModel;
  */
 public class GenerarOrdenDeCompra extends JInternalFrame {
 
-    private final ProxyOrden controlarOrden;
+    private final IControladorOrdenes controlarOrden;
     private final ElegirCategoriaComponente treePane;
     private final JPanel listaProductosPanel;
     private final JPanel offsetleft;
@@ -57,7 +55,7 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
     private final JPanel buttonContainerNorth;
     private JTable listarClientes;
 
-    GenerarOrdenDeCompra(ProxyOrden controlarOrden) {
+    GenerarOrdenDeCompra(IControladorOrdenes controlarOrden) {
         this.controlarOrden = controlarOrden;
         setBounds(50, 50, 1000, 500);
         setVisible(true);
@@ -85,7 +83,7 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
                 listarYElegirCliente();
             }
         });
-        treePane = new ElegirCategoriaComponente(controlarProducto, true);
+        treePane = new ElegirCategoriaComponente(controlarOrden.listarCategorias(), true);
         listaProductosPanel = new JPanel();
         listaProductosPanel.setLayout(new GridLayout(1, 0));
         buttonContainerNorth = new JPanel(new FlowLayout());
@@ -199,10 +197,10 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
     }
 
     private void ordenar() {
-     
-        DataOrdenCompra dataOrden = new DataOrdenCompra(0);
+        Integer id= controlarOrden.getNextId();
+        DataOrdenCompra dataOrden = new DataOrdenCompra(id);
         controlarOrden.guardarOrden(dataOrden);
-         
+        
         JOptionPane.showMessageDialog(this, "Su Orden se ha creado correctamente", "Validacion", JOptionPane.INFORMATION_MESSAGE);
 
         dispose();
@@ -240,12 +238,12 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
 
         if (!treePane.getSelectedCategories().isEmpty()) {
             String catName = treePane.getSelectedCategories().iterator().next();
-            controlarProducto.elegirCategoria(catName);
+            controlarOrden.elegirCategoria(catName);
         }
-        Object[][] rowData = new Object[controlarProducto.listarProductosCategoria().size()][2];
+        Object[][] rowData = new Object[controlarOrden.listarProductosCategoria().size()][2];
         index = 0;
 
-        controlarProducto.listarProductosCategoria().forEach((c) -> {
+        controlarOrden.listarProductosCategoria().forEach((c) -> {
             Object[] obj = {c.getNroReferencia(), c.getNombre(),c.getStock()};
 
             rowData[index] = obj;

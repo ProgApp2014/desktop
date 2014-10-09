@@ -1,9 +1,9 @@
 package Vista;
 
 import Controlador.Clases.IControladorUsuarios;
+import Controlador.Clases.Utils;
 import Controlador.DataTypes.DataCliente;
 import Controlador.DataTypes.DataProveedor;
-import clases.ProxyUsuario;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,14 +22,14 @@ import javax.swing.SpringLayout;
 
 class RegistrarUsuarioForm extends JInternalFrame {
 
-    private final ProxyUsuario controlarUsuario;
+    private final IControladorUsuarios controlarUsuario;
 //
     private final Formulario form;
 //
     private final SelectorImgUsuario sim;
     private boolean esProveedor;
 
-    public RegistrarUsuarioForm(ProxyUsuario ICU) {
+    public RegistrarUsuarioForm(IControladorUsuarios ICU) {
 
         controlarUsuario = ICU;
 
@@ -41,6 +41,7 @@ class RegistrarUsuarioForm extends JInternalFrame {
         form = new Formulario();
         form.addField("Proveedor", "checkbox");
         form.addField("Nickname", "text");
+        form.addField("Password", "text");
         form.addField("Email", "text");
         form.addField("Fecha nac", "Date");
         form.addField("Apellido", "text");
@@ -107,6 +108,7 @@ class RegistrarUsuarioForm extends JInternalFrame {
     private void cleanForm() {
 
         ((JTextField) form.getComponentByName("Nickname")).setText("");
+        ((JTextField) form.getComponentByName("Password")).setText("");
         ((JTextField) form.getComponentByName("Email")).setText("");
         ((DateChosserPanel) form.getComponentByName("Fecha nac")).setDate(null);
         ((JTextField) form.getComponentByName("Apellido")).setText("");
@@ -118,6 +120,7 @@ class RegistrarUsuarioForm extends JInternalFrame {
 
     private void guardarUsuario(ActionEvent evt) {
         String nickname = ((JTextField) form.getComponentByName("Nickname")).getText();
+        String password = Utils.md5(((JTextField) form.getComponentByName("Password")).getText());
         String email = ((JTextField) form.getComponentByName("Email")).getText();
         Date fnacDate = ((DateChosserPanel) form.getComponentByName("Fecha nac")).getDate();
         Calendar fnac = Calendar.getInstance();
@@ -133,6 +136,11 @@ class RegistrarUsuarioForm extends JInternalFrame {
             JOptionPane.showMessageDialog(this, "Nickname es requerido", "Validacion", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (password == null || password.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Password es requerido", "Validacion", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if (email == null || email.isEmpty()) {
 
             JOptionPane.showMessageDialog(this, "Email es requerido", "Validacion", JOptionPane.ERROR_MESSAGE);
@@ -140,11 +148,11 @@ class RegistrarUsuarioForm extends JInternalFrame {
         }
 
         if (!esProveedor) {
-            DataCliente cliente = new DataCliente(nickname, nombre, apellido, email, fnac);
+            DataCliente cliente = new DataCliente(nickname, password, nombre, apellido, email, fnac);
             cliente.setImagen(imagen);
             controlarUsuario.ingresarDatosCliente(cliente);
         } else {
-            DataProveedor proveedor = new DataProveedor(nickname, nombre, apellido, email, fnac, nombreCompania, linkSitio);
+            DataProveedor proveedor = new DataProveedor(nickname, password, nombre, apellido, email, fnac, nombreCompania, linkSitio);
             proveedor.setImagen(imagen);
             controlarUsuario.ingresarDatosProveedor(proveedor);
         }
