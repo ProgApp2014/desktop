@@ -19,6 +19,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -44,11 +46,12 @@ class VerInformacionClienteForm extends JInternalFrame {
 
     private String imagen;
     private final JPanel contenedorPic;
+    private final JPanel contenedorOrdenes;
 
     public VerInformacionClienteForm(IControladorUsuarios ICU) {
 
         controlarUsuario = ICU;
-        setBounds(50, 50, 900, 400);
+        setBounds(50, 50, 1000, 600);
         setVisible(true);
         setLayout(null);
         contenedor = new JPanel();
@@ -56,6 +59,12 @@ class VerInformacionClienteForm extends JInternalFrame {
         contenedor.setSize(700, 400);
         contenedor.setLocation(10, 0);
         add(contenedor);
+
+        contenedorOrdenes = new JPanel();
+        contenedorOrdenes.setLayout(new BorderLayout());
+        contenedorOrdenes.setSize(700, 100);
+        contenedorOrdenes.setLocation(10, 400);
+        add(contenedorOrdenes);
 
         JLabel elegirUsuarioLabel = new JLabel("Elegir Cliente:");
         elegirUsuarioLabel.setVisible(true);
@@ -72,20 +81,45 @@ class VerInformacionClienteForm extends JInternalFrame {
         userList.setBounds(0, 50, 200, 300);
         userList.addListSelectionListener(new ListSelectionListener() {
             private ImagePanel imagePanel;
+            private int index;
 
             @Override
             public void valueChanged(ListSelectionEvent evt) {
                 if (evt.getValueIsAdjusting()) {
                     return;
                 }
-                DataCliente aux = new DataCliente(ManejadorUsuarios.getInstance().obtenerClientes().get(userList.getSelectedValue().split("-")[0].trim()));
+                contenedorOrdenes.removeAll();
+                String nickname = userList.getSelectedValue().split("-")[0].trim();
+                controlarUsuario.elegirCliente(nickname);
+
+                Object[][] rowData = new Object[controlarUsuario.listarOrdenesCliente().size()][2];
+                index = 0;
+
+                controlarUsuario.listarOrdenesCliente().forEach((c) -> {
+                    Object[] obj = {c.getNroOrden(), c.getPrecioTotal(), c.getFecha()};
+
+                    rowData[index] = obj;
+                    index++;
+                   
+                });
+                String[] columnNames = {"NroOrden", "Precio Total", "Fecha"};
+                    
+                JTable listaProductos = new JTable(rowData, columnNames);
+                listaProductos.setPreferredScrollableViewportSize(new Dimension(500, 20));
+                listaProductos.setFillsViewportHeight(true);
+                JScrollPane scrollPane = new JScrollPane(listaProductos);
+                contenedorOrdenes.add(scrollPane);
+
+                contenedorOrdenes.revalidate();
+                contenedorOrdenes.repaint();
+
+                DataCliente aux = new DataCliente(ManejadorUsuarios.getInstance().obtenerClientes().get(nickname));
                 nicknameText.setText(aux.getNickname());
                 emailText.setText(aux.getEmail());
                 fNacText.setText(Utils.formatDate(aux.getFechaNacimiento().getTime()));
                 apellidoText.setText(aux.getApellido());
                 nombreText.setText(aux.getNombre());
-                imagen = aux.getImagen(); 
-         
+                imagen = aux.getImagen();
 
                 if (imagen != null && !imagen.isEmpty()) {
 
@@ -100,6 +134,8 @@ class VerInformacionClienteForm extends JInternalFrame {
                     contenedorPic.validate();
                     contenedorPic.repaint();
                 }
+                revalidate();
+                repaint();
 
             }
         });
