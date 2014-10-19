@@ -197,8 +197,7 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
     }
 
     private void ordenar() {
-        Integer id= controlarOrden.getNextId();
-        DataOrdenCompra dataOrden = new DataOrdenCompra(id);
+        DataOrdenCompra dataOrden = new DataOrdenCompra(0);
         controlarOrden.guardarOrden(dataOrden);
         
         JOptionPane.showMessageDialog(this, "Su Orden se ha creado correctamente", "Validacion", JOptionPane.INFORMATION_MESSAGE);
