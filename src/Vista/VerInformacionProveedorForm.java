@@ -19,6 +19,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -49,6 +50,7 @@ class VerInformacionProveedorForm extends JInternalFrame {
     private String imagen;
     private ImagePanel imagePanel;
     private final JPanel contenedorPic;
+    private final JScrollPane userListPane;
 
     public VerInformacionProveedorForm(IControladorUsuarios ICU) {
 
@@ -71,11 +73,14 @@ class VerInformacionProveedorForm extends JInternalFrame {
         DefaultListModel tes = new DefaultListModel();
         List<DataProveedor> clientes = ICU.listarProveedores();
         clientes.stream().forEach((proveedor) -> {
-            tes.addElement(proveedor.getNickname() + " - "+ proveedor.getNombre() + " " + proveedor.getApellido());
+            tes.addElement(proveedor.getNickname() + " - " + proveedor.getNombre() + " " + proveedor.getApellido());
         });
         userList = new JList<String>(tes);
         userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userList.setBounds(0, 50, 200, 300);
+        userListPane = new JScrollPane(userList);
+        userListPane.setSize(200, 300);
+        userListPane.setLocation(10, 50);
         userList.addListSelectionListener(new ListSelectionListener() {
 
             @Override
@@ -93,11 +98,11 @@ class VerInformacionProveedorForm extends JInternalFrame {
                 nombreCompaniaText.setText(aux.getNombreCompania());
                 linkSitioText.setText(aux.getLinkSitio());
                 imagen = aux.getImagen();
-                
-                 if (imagen != null && !imagen.isEmpty()) {
-                     
+
+                if (imagen != null && !imagen.isEmpty()) {
+
                     contenedorPic.removeAll();
-                      JTextField f =  new JTextField("sapee");
+                    JTextField f = new JTextField("sapee");
                     contenedorPic.add(f);
                     imagePanel = new ImagePanel();
                     imagePanel.setSize(200, 200);
@@ -106,16 +111,16 @@ class VerInformacionProveedorForm extends JInternalFrame {
                     contenedorPic.add(imagePanel);
                     contenedorPic.validate();
                     contenedorPic.repaint();
-                } 
+                }
 
             }
         });
 
-        contenedorPic =  new JPanel(null);
+        contenedorPic = new JPanel(null);
         contenedorPic.setBounds(650, 50, 300, 300);
-      
+
         add(contenedorPic);
-        contenedor.add(userList);
+        contenedor.add(userListPane);
 
         nickname = new JLabel("Nickname");
         nickname.setVisible(true);
@@ -202,7 +207,6 @@ class VerInformacionProveedorForm extends JInternalFrame {
         nombreCompaniaText.setEnabled(false);
         linkSitioText.setEnabled(false);
     }
- 
 
     private void cerrar(ActionEvent evt) {
         setVisible(false);
