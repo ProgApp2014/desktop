@@ -47,6 +47,7 @@ class VerInformacionClienteForm extends JInternalFrame {
     private String imagen;
     private final JPanel contenedorPic;
     private final JPanel contenedorOrdenes;
+    private final JScrollPane userListPane;
 
     public VerInformacionClienteForm(IControladorUsuarios ICU) {
 
@@ -79,6 +80,9 @@ class VerInformacionClienteForm extends JInternalFrame {
         userList = new JList<String>(tes);
         userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userList.setBounds(0, 50, 200, 300);
+          userListPane = new JScrollPane(userList);
+          userListPane.setSize(200, 300);
+          userListPane.setLocation(10, 50);
         userList.addListSelectionListener(new ListSelectionListener() {
             private ImagePanel imagePanel;
             private int index;
@@ -127,7 +131,7 @@ class VerInformacionClienteForm extends JInternalFrame {
                     JTextField f = new JTextField("sapee");
                     contenedorPic.add(f);
                     imagePanel = new ImagePanel();
-                    imagePanel.setSize(200, 200);
+                    imagePanel.setSize(300, 200);
                     imagePanel.loadImg(imagen);
                     imagePanel.repaint();
                     contenedorPic.add(imagePanel);
@@ -144,7 +148,7 @@ class VerInformacionClienteForm extends JInternalFrame {
         contenedorPic.setBounds(650, 50, 300, 300);
 
         add(contenedorPic);
-        contenedor.add(userList);
+        contenedor.add(userListPane);
 
         nickname = new JLabel("Nickname");
         nickname.setVisible(true);

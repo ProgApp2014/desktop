@@ -1,16 +1,27 @@
 package Vista;
 
 import Controlador.Clases.IControladorUsuarios;
+import Controlador.Clases.ImageHandler;
+import Controlador.Clases.ImageHanlderException;
 import Controlador.Clases.Utils;
 import Controlador.DataTypes.DataCliente;
 import Controlador.DataTypes.DataProveedor;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Calendar; 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JInternalFrame;
@@ -146,7 +157,16 @@ class RegistrarUsuarioForm extends JInternalFrame {
             JOptionPane.showMessageDialog(this, "Email es requerido", "Validacion", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        ImageHandler imgHandler =  new ImageHandler();
+        try {
+            File f = new File(imagen);
+            imagen = imgHandler.saveInputStream(new FileInputStream(imagen),f.getName());
+        } catch (ImageHanlderException ex) {
+            Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
         if (!esProveedor) {
             DataCliente cliente = new DataCliente(nickname, password, nombre, apellido, email, fnac);
             cliente.setImagen(imagen);
