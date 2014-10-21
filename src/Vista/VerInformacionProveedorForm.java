@@ -99,6 +99,7 @@ class VerInformacionProveedorForm extends JInternalFrame {
                 linkSitioText.setText(aux.getLinkSitio());
                 imagen = aux.getImagen();
 
+                    contenedorPic.removeAll();
                 if (imagen != null && !imagen.isEmpty()) {
 
                     contenedorPic.removeAll();

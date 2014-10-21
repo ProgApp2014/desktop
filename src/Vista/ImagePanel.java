@@ -41,8 +41,12 @@ public class ImagePanel extends JPanel {
 
     public void loadImg(String path) {
 
+         loadImg(  path,true);
+    }
+    public void loadImg(String path,boolean s) {
+
         try {
-            String url = ImageHandler.getStaticFolder()+path;
+            String url = ((s)?ImageHandler.getStaticFolder():"")+path;
                 image = ImageIO.read(new File(url));
         } catch (IOException ex) {
             

@@ -110,7 +110,7 @@ public class SelectorImgUsuario extends JPanel {
         this.nombre.setText(f.getName());
         this.imagePath = f.getAbsolutePath();
 
-        this.image.loadImg(imagePath);
+        this.image.loadImg(imagePath,false);
         this.image.repaint();
 
         revalidate();

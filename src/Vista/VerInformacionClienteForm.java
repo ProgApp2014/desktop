@@ -80,9 +80,9 @@ class VerInformacionClienteForm extends JInternalFrame {
         userList = new JList<String>(tes);
         userList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         userList.setBounds(0, 50, 200, 300);
-          userListPane = new JScrollPane(userList);
-          userListPane.setSize(200, 300);
-          userListPane.setLocation(10, 50);
+        userListPane = new JScrollPane(userList);
+        userListPane.setSize(200, 300);
+        userListPane.setLocation(10, 50);
         userList.addListSelectionListener(new ListSelectionListener() {
             private ImagePanel imagePanel;
             private int index;
@@ -104,10 +104,10 @@ class VerInformacionClienteForm extends JInternalFrame {
 
                     rowData[index] = obj;
                     index++;
-                   
+
                 });
                 String[] columnNames = {"NroOrden", "Precio Total", "Fecha"};
-                    
+
                 JTable listaProductos = new JTable(rowData, columnNames);
                 listaProductos.setPreferredScrollableViewportSize(new Dimension(500, 20));
                 listaProductos.setFillsViewportHeight(true);
@@ -124,10 +124,9 @@ class VerInformacionClienteForm extends JInternalFrame {
                 apellidoText.setText(aux.getApellido());
                 nombreText.setText(aux.getNombre());
                 imagen = aux.getImagen();
-
+                contenedorPic.removeAll();
                 if (imagen != null && !imagen.isEmpty()) {
 
-                    contenedorPic.removeAll();
                     JTextField f = new JTextField("sapee");
                     contenedorPic.add(f);
                     imagePanel = new ImagePanel();
