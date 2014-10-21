@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Controlador.Clases.ImageHandler;
 import com.sun.media.sound.EmergencySoundbank;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -41,9 +42,10 @@ public class ImagePanel extends JPanel {
     public void loadImg(String path) {
 
         try {
-            image = ImageIO.read(new File(path));
+            String url = ImageHandler.getStaticFolder()+path;
+                image = ImageIO.read(new File(url));
         } catch (IOException ex) {
-            // handle exception...
+            
         }
     }
 
