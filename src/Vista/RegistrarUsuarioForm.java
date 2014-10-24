@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.Calendar; 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -60,8 +60,8 @@ class RegistrarUsuarioForm extends JInternalFrame {
         form.addField("Nombre Compania", "text");
         form.addField("Link Sitio", "text");
         esProveedor = false;
-        form.toggleVisibility("Nombre Compania",esProveedor);
-        form.toggleVisibility("Link Sitio",esProveedor);
+        form.toggleVisibility("Nombre Compania", esProveedor);
+        form.toggleVisibility("Link Sitio", esProveedor);
         ((JTextField) form.getComponentByName("Nombre Compania")).setVisible(esProveedor);
         ((JTextField) form.getComponentByName("Link Sitio")).setVisible(esProveedor);
 
@@ -136,7 +136,7 @@ class RegistrarUsuarioForm extends JInternalFrame {
         Date fnacDate = ((DateChosserPanel) form.getComponentByName("Fecha nac")).getDate();
         Calendar fnac = Calendar.getInstance();
         fnac.setTime(fnacDate);
-        
+
         String apellido = ((JTextField) form.getComponentByName("Apellido")).getText();
         String nombre = ((JTextField) form.getComponentByName("Nombre")).getText();
         String nombreCompania = ((JTextField) form.getComponentByName("Nombre Compania")).getText();
@@ -157,16 +157,17 @@ class RegistrarUsuarioForm extends JInternalFrame {
             JOptionPane.showMessageDialog(this, "Email es requerido", "Validacion", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        ImageHandler imgHandler =  new ImageHandler();
-        try {
-            File f = new File(imagen);
-            imagen = imgHandler.saveInputStream(new FileInputStream(imagen),f.getName());
-        } catch (ImageHanlderException ex) {
-            Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+        if (imagen != null && !imagen.isEmpty()) {
+            ImageHandler imgHandler = new ImageHandler();
+            try {
+                File f = new File(imagen);
+                imagen = imgHandler.saveInputStream(new FileInputStream(imagen), f.getName());
+            } catch (ImageHanlderException ex) {
+                Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-            
         if (!esProveedor) {
             DataCliente cliente = new DataCliente(nickname, password, nombre, apellido, email, fnac);
             cliente.setImagen(imagen);
@@ -197,10 +198,10 @@ class RegistrarUsuarioForm extends JInternalFrame {
     private void cambiarTipoFormulario(ActionEvent evt) {
 
         esProveedor = ((JCheckBox) form.getComponentByName("Proveedor")).isSelected();
-        
-        form.toggleVisibility("Nombre Compania",esProveedor);
-        form.toggleVisibility("Link Sitio",esProveedor);
-        
+
+        form.toggleVisibility("Nombre Compania", esProveedor);
+        form.toggleVisibility("Link Sitio", esProveedor);
+
     }
 
 }
