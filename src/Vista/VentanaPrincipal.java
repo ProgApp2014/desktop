@@ -4,7 +4,7 @@ import Controlador.Clases.Fabrica;
 import Controlador.Clases.IControladorOrdenes;
 import Controlador.Clases.IControladorProductos;
 import Controlador.Clases.IControladorUsuarios;
-import Controlador.Clases.Utils;
+import clases.Utils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;

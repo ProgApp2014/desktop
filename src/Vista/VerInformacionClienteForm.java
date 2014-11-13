@@ -2,14 +2,12 @@ package Vista;
 
 import Controlador.Clases.IControladorUsuarios;
 import Controlador.Clases.ManejadorUsuarios;
-import Controlador.Clases.Utils;
-import Controlador.DataTypes.DataCliente;
+import clases.Utils;
+import controlador.middleware.DataCliente;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;

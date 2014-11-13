@@ -7,18 +7,14 @@ package Vista;
 
 import Controlador.Clases.IControladorOrdenes;
 import Controlador.Clases.ManejadorOrdenes;
-import Controlador.Clases.Utils;
-
-import Controlador.DataTypes.DataEspecificacionProducto;
-import Controlador.DataTypes.DataOrdenCompra;
+import clases.Utils;
+import controlador.middleware.DataEspecificacionProducto;
+import controlador.middleware.DataOrdenCompra;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -26,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;

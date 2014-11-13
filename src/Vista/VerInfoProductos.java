@@ -6,9 +6,9 @@
 package Vista;
 
 import Controlador.Clases.IControladorProductos;
-import Controlador.DataTypes.DataCategoria;
-import Controlador.DataTypes.DataEspecificacionProducto;
-import Controlador.DataTypes.DataProveedor;
+import controlador.middleware.DataCategoria;
+import controlador.middleware.DataEspecificacionProducto;
+import controlador.middleware.DataProveedor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;

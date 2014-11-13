@@ -6,11 +6,10 @@
 package Vista;
 
 import Controlador.Clases.IControladorProductos;
-import Controlador.Clases.Utils;
-import Controlador.DataTypes.DataCategoria;
-import Controlador.DataTypes.DataEspecificacionProducto;
-import Controlador.DataTypes.DataProducto;
-import Controlador.DataTypes.DataProveedor;
+import clases.Utils;
+import controlador.middleware.DataCategoria;
+import controlador.middleware.DataEspecificacionProducto;
+import controlador.middleware.DataProveedor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -20,7 +19,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import javax.swing.JButton;

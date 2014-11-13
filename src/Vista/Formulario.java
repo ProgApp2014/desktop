@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 package Vista;
-
-import Controlador.Clases.Utils;
+ 
+import clases.Utils;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.*;
