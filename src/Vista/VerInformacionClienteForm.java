@@ -114,7 +114,7 @@ class VerInformacionClienteForm extends JInternalFrame {
                 contenedorOrdenes.revalidate();
                 contenedorOrdenes.repaint();
                 DataCliente aux = null;
-                Iterator it = ProxyUsuario.getInstance().listarProveedores().iterator();
+                Iterator it = ProxyUsuario.getInstance().listarClientes().iterator();
                 while (it.hasNext() && (aux = (DataCliente) it.next()).getNickname() != nickname);
 
                 nicknameText.setText(aux.getNickname());
