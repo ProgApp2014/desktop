@@ -1,7 +1,6 @@
 package Vista;
 
-import Controlador.Clases.IControladorUsuarios;
-import Controlador.Clases.ManejadorUsuarios;
+import clases.ProxyUsuario;
 import clases.Utils;
 import controlador.middleware.DataCliente;
 import java.awt.BorderLayout;
@@ -9,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -40,16 +41,14 @@ class VerInformacionClienteForm extends JInternalFrame {
     private final JTextField apellidoText;
     private final JTextField nombreText;
     private final JButton cerrarBtn;
-    private final IControladorUsuarios controlarUsuario;
 
     private String imagen;
     private final JPanel contenedorPic;
     private final JPanel contenedorOrdenes;
     private final JScrollPane userListPane;
 
-    public VerInformacionClienteForm(IControladorUsuarios ICU) {
+    public VerInformacionClienteForm() {
 
-        controlarUsuario = ICU;
         setBounds(50, 50, 1000, 600);
         setVisible(true);
         setLayout(null);
@@ -71,7 +70,7 @@ class VerInformacionClienteForm extends JInternalFrame {
         contenedor.add(elegirUsuarioLabel);
 
         DefaultListModel tes = new DefaultListModel();
-        List<DataCliente> clientes = ICU.listarClientes();
+        List<DataCliente> clientes = ProxyUsuario.getInstance().listarClientes();
         clientes.stream().forEach((cliente) -> {
             tes.addElement(cliente.getNickname() + " - " + cliente.getNombre() + " " + cliente.getApellido());
         });
@@ -92,12 +91,12 @@ class VerInformacionClienteForm extends JInternalFrame {
                 }
                 contenedorOrdenes.removeAll();
                 String nickname = userList.getSelectedValue().split("-")[0].trim();
-                controlarUsuario.elegirCliente(nickname);
+                ProxyUsuario.getInstance().elegirCliente(nickname);
 
-                Object[][] rowData = new Object[controlarUsuario.listarOrdenesCliente().size()][2];
+                Object[][] rowData = new Object[ProxyUsuario.getInstance().listarOrdenesCliente().size()][2];
                 index = 0;
 
-                controlarUsuario.listarOrdenesCliente().forEach((c) -> {
+                ProxyUsuario.getInstance().listarOrdenesCliente().forEach((c) -> {
                     Object[] obj = {c.getNroOrden(), c.getPrecioTotal(), c.getFecha()};
 
                     rowData[index] = obj;
@@ -114,11 +113,13 @@ class VerInformacionClienteForm extends JInternalFrame {
 
                 contenedorOrdenes.revalidate();
                 contenedorOrdenes.repaint();
+                DataCliente aux = null;
+                Iterator it = ProxyUsuario.getInstance().listarProveedores().iterator();
+                while (it.hasNext() && (aux = (DataCliente) it.next()).getNickname() != nickname);
 
-                DataCliente aux = new DataCliente(ManejadorUsuarios.getInstance().obtenerClientes().get(nickname));
                 nicknameText.setText(aux.getNickname());
                 emailText.setText(aux.getEmail());
-                fNacText.setText(Utils.formatDate(aux.getFechaNacimiento().getTime()));
+                fNacText.setText(Utils.formatDate(aux.getFechaNacimiento()));
                 apellidoText.setText(aux.getApellido());
                 nombreText.setText(aux.getNombre());
                 imagen = aux.getImagen();
@@ -237,7 +238,9 @@ class VerInformacionClienteForm extends JInternalFrame {
         setVisible(false);
         nicknameText.setText("");
         emailText.setText("");
-        fNacText.setText(Utils.formatDate(new Date()));
+        GregorianCalendar g = (GregorianCalendar) GregorianCalendar.getInstance();
+        g.setTime(new Date());
+        fNacText.setText(Utils.getFechaNacFormateada(g));
         apellidoText.setText("");
         nombreText.setText("");
     }

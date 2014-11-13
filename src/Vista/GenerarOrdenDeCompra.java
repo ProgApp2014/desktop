@@ -5,9 +5,9 @@
  */
 package Vista;
 
-import Controlador.Clases.IControladorOrdenes;
-import Controlador.Clases.ManejadorOrdenes;
-import Controlador.DataTypes.DataOrdenCompra;
+ 
+import clases.ProxyOrden;
+import controlador.middleware.DataOrdenCompra;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -35,8 +35,7 @@ import javax.swing.table.TableModel;
  * @author rodro
  */
 public class GenerarOrdenDeCompra extends JInternalFrame {
-
-    private final IControladorOrdenes controlarOrden;
+ 
     private final ElegirCategoriaComponente treePane;
     private final JPanel listaProductosPanel;
     private final JPanel offsetleft;
@@ -55,8 +54,7 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
     private final JPanel buttonContainerNorth;
     private JTable listarClientes;
 
-    GenerarOrdenDeCompra(IControladorOrdenes controlarOrden) {
-        this.controlarOrden = controlarOrden;
+    GenerarOrdenDeCompra(   ) { 
         setBounds(50, 50, 1000, 500);
         setVisible(true);
         setLayout(new SpringLayout());
@@ -83,7 +81,7 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
                 listarYElegirCliente();
             }
         });
-        treePane = new ElegirCategoriaComponente(controlarOrden.listarCategorias(), true);
+        treePane = new ElegirCategoriaComponente(ProxyOrden.getInstance().listarCategorias(), true);
         listaProductosPanel = new JPanel();
         listaProductosPanel.setLayout(new GridLayout(1, 0));
         buttonContainerNorth = new JPanel(new FlowLayout());
@@ -158,9 +156,9 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
                 elegirCliente();
             }
         });
-        Object[][] rowData = new Object[controlarOrden.listarClientes().size()][2];
+        Object[][] rowData = new Object[ProxyOrden.getInstance().listarClientes().size()][2];
         index = 0;
-        controlarOrden.listarClientes().stream().forEach((cliente) -> {
+        ProxyOrden.getInstance().listarClientes().stream().forEach((cliente) -> {
              Object[] obj={cliente.getNickname(),cliente.getEmail()};
              rowData[index] = obj;
              index++;        
@@ -190,15 +188,15 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
         String Nickname = (String) model.getValueAt(row, 0);
         String Email = (String) model.getValueAt(row, 1);
         System.out.print(Nickname);
-        controlarOrden.elegirCliente(Nickname); 
+        ProxyOrden.getInstance().elegirCliente(Nickname); 
     }
     private void cancel() {
         dispose();
     }
 
     private void ordenar() {
-        DataOrdenCompra dataOrden = new DataOrdenCompra(0);
-        controlarOrden.guardarOrden(dataOrden);
+        DataOrdenCompra dataOrden = new DataOrdenCompra();
+        ProxyOrden.getInstance().guardarOrden(dataOrden);
         
         JOptionPane.showMessageDialog(this, "Su Orden se ha creado correctamente", "Validacion", JOptionPane.INFORMATION_MESSAGE);
 
@@ -237,12 +235,12 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
 
         if (!treePane.getSelectedCategories().isEmpty()) {
             String catName = treePane.getSelectedCategories().iterator().next();
-            controlarOrden.elegirCategoria(catName);
+            ProxyOrden.getInstance().elegirCategoria(catName);
         }
-        Object[][] rowData = new Object[controlarOrden.listarProductosCategoria().size()][2];
+        Object[][] rowData = new Object[ProxyOrden.getInstance().listarProductosCategoria().size()][2];
         index = 0;
 
-        controlarOrden.listarProductosCategoria().forEach((c) -> {
+        ProxyOrden.getInstance().listarProductosCategoria().forEach((c) -> {
             Object[] obj = {c.getNroReferencia(), c.getNombre(),c.getStock()};
 
             rowData[index] = obj;
@@ -315,7 +313,7 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
                     return t.nroRef == ref;
                 }
             };
-            controlarOrden.removerEspecificacionProducto(ref);
+            ProxyOrden.getInstance().removerEspecificacionProducto(ref);
             carritoArray.removeIf(pre);
             renderCarrito();
         }
@@ -336,9 +334,9 @@ public class GenerarOrdenDeCompra extends JInternalFrame {
             } else {
                 currentItem.cantidad = cantidadReal;
                 System.out.println(cantidadReal+" nroref "+currentItem.nroRef);
-                controlarOrden.elegirEspecificacionProducto(currentItem.nroRef);
-                controlarOrden.elegirCantidadProducto(currentItem.cantidad);
-                controlarOrden.generarItemOrden();
+                ProxyOrden.getInstance().elegirEspecificacionProducto(currentItem.nroRef);
+                ProxyOrden.getInstance().elegirCantidadProducto(currentItem.cantidad);
+                ProxyOrden.getInstance().generarItemOrden();
                 carritoArray.add(currentItem);
                 renderCarrito();
             }

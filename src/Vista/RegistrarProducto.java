@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package Vista;
-
-import Controlador.Clases.IControladorProductos;
+ 
+import clases.ProxyProducto;
 import clases.Utils;
 import controlador.middleware.DataCategoria;
 import controlador.middleware.DataEspecificacionProducto;
@@ -34,13 +34,12 @@ public class RegistrarProducto extends javax.swing.JInternalFrame {
 
     private JDialog dialog;
     private ElegirCategoriaComponente treePane;
-    private final Formulario form;
-    private final IControladorProductos controlarProducto;
+    private final Formulario form; 
     private final SelectorDeImagenes sdi;
 
-    RegistrarProducto(IControladorProductos controlarProducto) {
+    RegistrarProducto( ) {
 
-        this.controlarProducto = controlarProducto;
+         
      
         setBounds(50, 50, 800, 500);
         setVisible(true);
@@ -56,10 +55,10 @@ public class RegistrarProducto extends javax.swing.JInternalFrame {
         form.addField("Especificaciones", "textarea");
         form.addField("Precio", "text");
         form.addField("Stock", "text");
-        form.addField("Proveedor", "combo", controlarProducto.listarProveedores().toArray(),null);
+        form.addField("Proveedor", "combo", ProxyProducto.getInstance().listarProveedores().toArray(),null);
 
 
-        treePane = new ElegirCategoriaComponente(controlarProducto.listarCategorias(), false);
+        treePane = new ElegirCategoriaComponente(ProxyProducto.getInstance().listarCategorias(), false);
         sdi = new SelectorDeImagenes();
         sdi.setLocation(700, 10);
 
@@ -150,9 +149,14 @@ public class RegistrarProducto extends javax.swing.JInternalFrame {
             return;
         }
 
-        DataEspecificacionProducto espProducto = new DataEspecificacionProducto(NroRef, titulo, descripcion, new HashMap(), precioReal, Proveedor, new ArrayList<String>(), new ArrayList<DataCategoria>(), new ArrayList(),new ArrayList());
-        controlarProducto.elegirProveedor(Proveedor.getNickname());
-        controlarProducto.ingresarDatosProductos(espProducto);
+        DataEspecificacionProducto espProducto = new DataEspecificacionProducto();
+        espProducto.setDescripcion(descripcion);
+        espProducto.setNombre(titulo);
+        espProducto.setNroReferencia(NroRef);
+        espProducto.setPrecio(precioReal);
+        espProducto.setProveedor(Proveedor);
+        ProxyProducto.getInstance().elegirProveedor(Proveedor.getNickname());
+        ProxyProducto.getInstance().ingresarDatosProductos(espProducto);
         
         for(String iter : especificaciones.split("\n")){
             String[] iter2 = iter.split(":");
@@ -160,21 +164,21 @@ public class RegistrarProducto extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Las especificaciones deben ingresarse con el formato 'Tipo: Description'", "Validacion", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            controlarProducto.ingresarEspecificacion(iter2[0], iter2[1].trim());
+            ProxyProducto.getInstance().ingresarEspecificacion(iter2[0], iter2[1].trim());
         }
        
 
-        controlarProducto.agregarMultiplesProductosAutogenerados(stockReal);
+        ProxyProducto.getInstance().agregarMultiplesProductosAutogenerados(stockReal);
 
         categorias.forEach((cat) -> {
-            controlarProducto.agregarCategoriaAEspecificacion(cat);
+            ProxyProducto.getInstance().agregarCategoriaAEspecificacion(cat);
         });
         imagenes.forEach((img) -> { 
-            controlarProducto.agregarImagen(img);
+            ProxyProducto.getInstance().agregarImagen(img);
         });
-        if (controlarProducto.controlarErrores()) {
+        if (ProxyProducto.getInstance().controlarErrores()) {
             try {
-                controlarProducto.guardarProducto();
+                ProxyProducto.getInstance().guardarProducto();
                 JOptionPane.showMessageDialog(this, "Su Producto se ha creado correctamente", "Validacion", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             } catch (Exception e) {

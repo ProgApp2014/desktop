@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 package Vista;
-
-import Controlador.Clases.IControladorProductos;
+ 
+import clases.ProxyProducto;
 import controlador.middleware.DataCategoria;
+import controlador.middleware.DataEspecificacion;
 import controlador.middleware.DataEspecificacionProducto;
 import controlador.middleware.DataProveedor;
 import java.awt.BorderLayout;
@@ -38,7 +39,7 @@ public class VerInfoProductos extends JInternalFrame {
     private final ElegirCategoriaComponente treePane;
     private final JPanel InfoPanel;
     private final JPanel offsetleft;
-    private final IControladorProductos controlarProducto;
+ 
 
     private int index;
     private final JPanel listaProductosPanel;
@@ -50,10 +51,7 @@ public class VerInfoProductos extends JInternalFrame {
     /**
      * Creates new form VerInfoProductos
      */
-    public VerInfoProductos(IControladorProductos controlarProducto) {
-
-        this.controlarProducto = controlarProducto;
-    
+    public VerInfoProductos() { 
 
         setBounds(50, 50, 800, 700);
         setVisible(true);
@@ -68,7 +66,7 @@ public class VerInfoProductos extends JInternalFrame {
                 openDialog();
             }
         });
-        treePane = new ElegirCategoriaComponente(controlarProducto.listarCategorias(), true);
+        treePane = new ElegirCategoriaComponente(ProxyProducto.getInstance().listarCategorias(), true);
         listaProductosPanel = new JPanel();
         listaProductosPanel.setLayout(new GridLayout(1, 0));
 
@@ -115,12 +113,12 @@ public class VerInfoProductos extends JInternalFrame {
 
         if (!treePane.getSelectedCategories().isEmpty()) {
             String catName = treePane.getSelectedCategories().iterator().next();
-            controlarProducto.elegirCategoria(catName);
+            ProxyProducto.getInstance().elegirCategoria(catName);
         }
-        Object[][] rowData = new Object[controlarProducto.listarProductosCategoria().size()][2];
+        Object[][] rowData = new Object[ProxyProducto.getInstance().listarProductosCategoria().size()][2];
         index = 0;
 
-        controlarProducto.listarProductosCategoria().forEach((c) -> {
+        ProxyProducto.getInstance().listarProductosCategoria().forEach((c) -> {
             Object[] obj = {c.getNroReferencia(), c.getNombre()};
 
             rowData[index] = obj;
@@ -153,14 +151,14 @@ public class VerInfoProductos extends JInternalFrame {
         TableModel model = listaProductos.getModel();
         int row = listaProductos.getSelectedRow();
         String nroRef = (String) model.getValueAt(row, 0);
-        DataEspecificacionProducto dataProducto = controlarProducto.mostrarDatosProducto(nroRef);
+        DataEspecificacionProducto dataProducto = ProxyProducto.getInstance().mostrarDatosProducto(nroRef);
         form = new Formulario(false);
         form.addField("Nombre", "text", null, dataProducto.getNombre());
         form.addField("NroRef", "text", null, dataProducto.getNroReferencia());
         form.addField("Descripcion", "text", null, dataProducto.getDescripcion());
         String especificaciones = "";
-        for(String iter: dataProducto.getEspecificacion().keySet()){
-            especificaciones += iter + ": "+ dataProducto.getEspecificacion().get(iter) + "\n";
+        for(DataEspecificacion d: dataProducto.getEspecificacion()){
+            especificaciones += d.getKey() + ": "+ d.getValue() + "\n";
         }
         form.addField("Especificaciones", "textarea", null, especificaciones);
         String categorias = "";

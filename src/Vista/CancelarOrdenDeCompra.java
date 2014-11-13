@@ -6,7 +6,8 @@
 package Vista;
 
 
-import Controlador.Clases.IControladorOrdenes;
+ 
+import clases.ProxyOrden;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDayChooser;
 import controlador.middleware.DataEspecificacionProducto;
@@ -31,8 +32,7 @@ import javax.swing.event.ListSelectionListener;
  * @author darius
  */
 public class CancelarOrdenDeCompra extends JInternalFrame {
-
-    private final IControladorOrdenes controlarOrden;
+ 
     private final JPanel contenedor;
     private final JList ordenList;
     private final JLabel nroRef;
@@ -49,8 +49,8 @@ public class CancelarOrdenDeCompra extends JInternalFrame {
     private final JButton cancelarBtn;
     private final JDayChooser as;
 
-    public CancelarOrdenDeCompra(IControladorOrdenes ICO) {
-        controlarOrden = ICO;
+    public CancelarOrdenDeCompra(   ) {
+ 
 
         setBounds(50, 50, 700, 400);
         setVisible(true);
@@ -67,7 +67,7 @@ public class CancelarOrdenDeCompra extends JInternalFrame {
         contenedor.add(elegirUsuarioLabel);
 
         DefaultListModel tes = new DefaultListModel();
-        List<DataOrdenCompra> ordenes = controlarOrden.listarOrdenes();
+        List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenes();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden);
         });
@@ -81,13 +81,13 @@ public class CancelarOrdenDeCompra extends JInternalFrame {
                     return;
                 }
                 DataOrdenCompra aux = (DataOrdenCompra) ordenList.getSelectedValue();
-                controlarOrden.elegirOrden(aux.getNroOrden());
+                ProxyOrden.getInstance().elegirOrden(aux.getNroOrden());
                 nroRefText.setText(String.valueOf(aux.getNroOrden()));
-                fechaVentaText.setDate(aux.getFecha());
+                fechaVentaText.setDate(aux.getFecha().toGregorianCalendar().getTime());
                 precioTotalText.setText(String.valueOf(aux.getPrecioTotal()));
                 clienteText.setText(aux.getClienteCompraProducto().get(0).getCliente().getNickname());
                 DefaultListModel tes2 = new DefaultListModel();
-                List<DataEspecificacionProducto> productosLst = controlarOrden.listarProductosEnOrden();
+                List<DataEspecificacionProducto> productosLst = ProxyOrden.getInstance().listarProductosEnOrden();
                 
                 productosLst.stream().forEach((producto) -> {
                     tes2.addElement(producto.getNroReferencia() + " - " + producto.getNombre() + " - $" + producto.getPrecio());
@@ -172,8 +172,8 @@ public class CancelarOrdenDeCompra extends JInternalFrame {
     private void borrarOrden(ActionEvent evt) {
         Integer nroOrden = Integer.valueOf(nroRefText.getText());
         if (JOptionPane.showConfirmDialog(this, "Esta seguro que desea cancelar la oden de compra? \nEste paso no se puede deshacer","",JOptionPane.WARNING_MESSAGE) == 0) {
-            controlarOrden.elegirOrden(nroOrden);
-            controlarOrden.borrarOrdenCompra();
+            ProxyOrden.getInstance().elegirOrden(nroOrden);
+            ProxyOrden.getInstance().borrarOrdenCompra();
              dispose();
         }
     }

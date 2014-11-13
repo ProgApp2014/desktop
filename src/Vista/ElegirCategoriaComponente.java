@@ -5,8 +5,8 @@
  */
 package Vista;
 
-import Controlador.Clases.Constantes;
-import Controlador.DataTypes.DataCategoria;
+ 
+import clases.Constantes;
 import controlador.middleware.DataCategoria;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -108,7 +108,7 @@ class ElegirCategoriaComponente extends JPanel {
 
             while (!padresAgregados) {
 
-                if (!auxDeBusqueda.tienePadre()) {
+                if (auxDeBusqueda.getPadre() == null) {
 
                     NodoCategoria nodoRaiz = new NodoCategoria(auxDeBusqueda.getNombre());
                     if (auxHuerfana != null) {
@@ -137,7 +137,7 @@ class ElegirCategoriaComponente extends JPanel {
 
                         NodoCategoria padre = new NodoCategoria(auxDeBusqueda.getPadre().getNombre());
                         padre.addHijo(new NodoCategoria(auxDeBusqueda.getNombre()));
-                        if (auxDeBusqueda.getPadre().tienePadre()) {
+                        if (auxDeBusqueda.getPadre().getPadre() != null) {
                             auxDeBusqueda = auxDeBusqueda.getPadre().getPadre();
                             auxHuerfana = padre;
                         } else {

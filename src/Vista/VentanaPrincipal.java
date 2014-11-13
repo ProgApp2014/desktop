@@ -1,10 +1,6 @@
 package Vista;
 
-import Controlador.Clases.Fabrica;
-import Controlador.Clases.IControladorOrdenes;
-import Controlador.Clases.IControladorProductos;
-import Controlador.Clases.IControladorUsuarios;
-import clases.Utils;
+ 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
@@ -41,12 +37,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private JInternalFrame verOrdenVentana;
     // End of variables declaration
 
-    public static Integer idUsuariosControlador;
-    public static Integer idProductosControlador;
-    public static Integer idOrdenesControlador;
-    public static IControladorUsuarios controlarUsuario;
-    public static IControladorProductos controlarProducto;
-    public static IControladorOrdenes controlarOrden;
     private JInternalFrame registrarProductoVentana;
     private JInternalFrame verInfoClienteVentana;
     private JInternalFrame verInfoProveedorVentana;
@@ -57,13 +47,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public VentanaPrincipal() {
         initComponents();
-
-        idUsuariosControlador = Fabrica.getInstance().getControladorUsuarios(null).getId();
-        idProductosControlador = Fabrica.getInstance().getControladorProductos(null).getId();
-        idOrdenesControlador = Fabrica.getInstance().getControladorOrdenes(null).getId();
-        controlarUsuario = Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador);
-        controlarProducto = Fabrica.getInstance().getControladorProductos(idProductosControlador);
-        controlarOrden = Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador);
     }
 
     private void initComponents() {
@@ -142,13 +125,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 registrarProdOptActionPerformed(evt);
             }
         });
-        
+
         /**
-         * Segun los requerimientos de la tarea dos esta funcionalidad no se utiliza mas.
-         * al no agregar la opcion queda deshabilitada.
+         * Segun los requerimientos de la tarea dos esta funcionalidad no se
+         * utiliza mas. al no agregar la opcion queda deshabilitada.
          */
         //productoMenu.add(registrarProdOpt);
-
         verInfoProdOpt.setText("Ver informacion de Producto");
         verInfoProdOpt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,26 +210,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void registrarUsrOptActionPerformed(java.awt.event.ActionEvent evt) {
-        registrarUsuarioVentana = new RegistrarUsuarioForm(controlarUsuario);
+        registrarUsuarioVentana = new RegistrarUsuarioForm();
 
         desktopPane.add(registrarUsuarioVentana);
 
     }
 
     private void registrarProdOptActionPerformed(java.awt.event.ActionEvent evt) {
-        registrarProductoVentana = new RegistrarProducto(controlarProducto);
+        registrarProductoVentana = new RegistrarProducto();
 
         desktopPane.add(registrarProductoVentana);
     }
 
     private void loadTestData() {
         cargarDatosDePrueba.setEnabled(false);
-        Utils.generarDatosDePrueba();
+        // Utils.generarDatosDePrueba();
         JOptionPane.showMessageDialog(this, "Se cargaron los datos de prueba", "Datos de Prueba", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void altaCategoriaOptActionPerformed(java.awt.event.ActionEvent evt) {
-        registrarCategoriaVentana = new RegistrarCategoriaForm(controlarProducto);
+        registrarCategoriaVentana = new RegistrarCategoriaForm();
 
         javax.swing.GroupLayout registrarUsuariosLayout = new javax.swing.GroupLayout(registrarCategoriaVentana.getContentPane());
         registrarCategoriaVentana.getContentPane().setLayout(registrarUsuariosLayout);
@@ -265,23 +247,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void crearOrdenOptActionPerformed(java.awt.event.ActionEvent evt) {
-        GenerarOrdenDeCompra codec = new GenerarOrdenDeCompra(controlarOrden);
+        GenerarOrdenDeCompra codec = new GenerarOrdenDeCompra();
         desktopPane.add(codec);
     }
 
     private void verInfoOrdenOptActionPerformed(java.awt.event.ActionEvent evt) {
-        verOrdenVentana = new VerInformacionOrden(controlarOrden,false);
+        verOrdenVentana = new VerInformacionOrden(false);
         desktopPane.add(verOrdenVentana);
     }
 
     private void cancelarOrdenOptActionPerformed(java.awt.event.ActionEvent evt) {
-        cancelarOrdenVentana  = new VerInformacionOrden(controlarOrden,true);
+        cancelarOrdenVentana = new VerInformacionOrden(true);
 
         desktopPane.add(cancelarOrdenVentana);
     }
 
     private void verInfoClienteOptActionPerformed(java.awt.event.ActionEvent evt) {
-        verInfoClienteVentana = new VerInformacionClienteForm(controlarUsuario);
+        verInfoClienteVentana = new VerInformacionClienteForm();
 
         javax.swing.GroupLayout verUsuariosLayout = new javax.swing.GroupLayout(verInfoClienteVentana.getContentPane());
         verInfoClienteVentana.getContentPane().setLayout(verUsuariosLayout);
@@ -298,7 +280,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void verInfoProvOptActionPerformed(java.awt.event.ActionEvent evt) {
-        verInfoProveedorVentana = new VerInformacionProveedorForm(controlarUsuario);
+        verInfoProveedorVentana = new VerInformacionProveedorForm();
 
         javax.swing.GroupLayout verUsuariosLayout = new javax.swing.GroupLayout(verInfoProveedorVentana.getContentPane());
         verInfoProveedorVentana.getContentPane().setLayout(verUsuariosLayout);
@@ -315,12 +297,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void modDatosProdOptActionPerformed(ActionEvent evt) {
-        ModificarInformacionProducto vinfo = new ModificarInformacionProducto(controlarProducto);
+        ModificarInformacionProducto vinfo = new ModificarInformacionProducto();
         desktopPane.add(vinfo);
     }
 
     private void verInfoProdOptActionPerformed(java.awt.event.ActionEvent evt) {
-        VerInfoProductos vinfo = new VerInfoProductos(controlarProducto);
+        VerInfoProductos vinfo = new VerInfoProductos();
         desktopPane.add(vinfo);
     }
 

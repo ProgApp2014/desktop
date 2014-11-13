@@ -5,8 +5,8 @@
  */
 package Vista;
 
-import Controlador.Clases.IControladorOrdenes;
-import Controlador.Clases.ManejadorOrdenes;
+ 
+import clases.ProxyOrden;
 import clases.Utils;
 import controlador.middleware.DataEspecificacionProducto;
 import controlador.middleware.DataOrdenCompra;
@@ -14,6 +14,7 @@ import controlador.middleware.DataOrdenCompra;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -35,7 +36,7 @@ import javax.swing.event.ListSelectionListener;
  */
 public class VerInformacionOrden extends JInternalFrame {
 
-    private final IControladorOrdenes controlarOrden;
+ 
     private final JPanel contenedor;
     private final JList<String> ordenList;
     private final JLabel nroRef;
@@ -56,10 +57,9 @@ public class VerInformacionOrden extends JInternalFrame {
     private final JButton borrarBtn;
     private boolean modoEdicion;
 
-    public VerInformacionOrden(IControladorOrdenes ICO, boolean modoEdicion) {
+    public VerInformacionOrden( boolean modoEdicion) {
         
         this.modoEdicion = modoEdicion;
-        controlarOrden = ICO;
         setBounds(50, 50, 700, 600);
         setVisible(true);
         setLayout(null);
@@ -92,15 +92,16 @@ public class VerInformacionOrden extends JInternalFrame {
                 }
                 
                 Integer ordenId = Integer.parseInt(ordenList.getSelectedValue().split("-")[0].trim());
-                DataOrdenCompra aux = new DataOrdenCompra(ManejadorOrdenes.getInstance().obtenerOrdenes().get(ordenId));
-
-                controlarOrden.elegirOrden(aux.getNroOrden());
+                DataOrdenCompra aux = null;
+                Iterator it = ProxyOrden.getInstance().listarOrdenes().iterator();
+                while(it.hasNext() && (aux = (DataOrdenCompra)it.next()).getNroOrden()!=ordenId);
+                ProxyOrden.getInstance().elegirOrden(aux.getNroOrden());
                 nroRefText.setText(String.valueOf(aux.getNroOrden()));
                 fechaVentaText.setText(Utils.formatDate(aux.getFecha()));
                 precioTotalText.setText(String.valueOf(aux.getPrecioTotal()));
                 clienteText.setText(aux.getClienteCompraProducto().get(0).getCliente().getNickname());
                 DefaultListModel<String> tes2 = new DefaultListModel<String>();
-                List<DataEspecificacionProducto> productosLst = controlarOrden.listarProductosEnOrden();
+                List<DataEspecificacionProducto> productosLst = ProxyOrden.getInstance().listarProductosEnOrden();
                 HashMap<String, DatosProducto> mp = new HashMap();
                 productosLst.stream().forEach((producto) -> {
 
@@ -203,8 +204,8 @@ public class VerInformacionOrden extends JInternalFrame {
     private void guardarCategoria(ActionEvent evt) {
         Integer nroOrden = Integer.valueOf(nroRefText.getText());
 
-        controlarOrden.elegirOrden(nroOrden);
-        controlarOrden.borrarOrdenCompra();
+        ProxyOrden.getInstance().elegirOrden(nroOrden);
+        ProxyOrden.getInstance().borrarOrdenCompra();
         setVisible(false);
         nroRefText.setText("");
     }
@@ -220,8 +221,8 @@ public class VerInformacionOrden extends JInternalFrame {
     private void borrarOrden(ActionEvent evt) {
         Integer nroOrden = Integer.valueOf(nroRefText.getText());
         if (JOptionPane.showConfirmDialog(this, "Esta seguro que desea cancelar la oden de compra? \nEste paso no se puede deshacer", "", JOptionPane.WARNING_MESSAGE) == 0) {
-            controlarOrden.elegirOrden(nroOrden);
-            controlarOrden.borrarOrdenCompra();
+            ProxyOrden.getInstance().elegirOrden(nroOrden);
+            ProxyOrden.getInstance().borrarOrdenCompra();
             fillOrdenList();
         }
     }
@@ -229,7 +230,7 @@ public class VerInformacionOrden extends JInternalFrame {
     private void fillOrdenList() {
         
          DefaultListModel tes = new DefaultListModel();
-        List<DataOrdenCompra> ordenes = controlarOrden.listarOrdenes();
+        List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenes();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden.getNroOrden() + " - " + orden.getFecha());
         });

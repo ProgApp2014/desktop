@@ -1,19 +1,18 @@
 package Vista;
 
-import Controlador.Clases.IControladorUsuarios;
-import Controlador.Clases.ImageHandler;
-import Controlador.Clases.ImageHanlderException;
+import clases.ImagesProxy;
+import clases.ProxyUsuario;
 import clases.Utils;
 import controlador.middleware.DataCliente;
 import controlador.middleware.DataProveedor;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Calendar;
+import java.io.IOException;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -26,16 +25,13 @@ import javax.swing.SpringLayout;
 
 class RegistrarUsuarioForm extends JInternalFrame {
 
-    private final IControladorUsuarios controlarUsuario;
 //
     private final Formulario form;
 //
     private final SelectorImgUsuario sim;
     private boolean esProveedor;
 
-    public RegistrarUsuarioForm(IControladorUsuarios ICU) {
-
-        controlarUsuario = ICU;
+    public RegistrarUsuarioForm() {
 
         setBounds(50, 50, 800, 500);
         setVisible(true);
@@ -127,7 +123,7 @@ class RegistrarUsuarioForm extends JInternalFrame {
         String password = Utils.md5(((JTextField) form.getComponentByName("Password")).getText());
         String email = ((JTextField) form.getComponentByName("Email")).getText();
         Date fnacDate = ((DateChosserPanel) form.getComponentByName("Fecha nac")).getDate();
-        Calendar fnac = Calendar.getInstance();
+        GregorianCalendar fnac = (GregorianCalendar) GregorianCalendar.getInstance();
         fnac.setTime(fnacDate);
 
         String apellido = ((JTextField) form.getComponentByName("Apellido")).getText();
@@ -151,32 +147,55 @@ class RegistrarUsuarioForm extends JInternalFrame {
             return;
         }
         if (imagen != null && !imagen.isEmpty()) {
-            ImageHandler imgHandler = new ImageHandler();
+ 
+            FileInputStream in = null;
             try {
-                File f = new File(imagen);
-                imagen = imgHandler.saveInputStream(new FileInputStream(imagen), f.getName());
-            } catch (ImageHanlderException ex) {
-                Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+                ImagesProxy ih = new ImagesProxy();
+                in = new FileInputStream(imagen);
+                imagen = ih.saveImage(in, imagen);
             } catch (FileNotFoundException ex) {
+                System.out.println("0 "+ex.getMessage()+" "+ex.getStackTrace());
                 Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(RegistrarUsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         if (!esProveedor) {
-            DataCliente cliente = new DataCliente(nickname, password, nombre, apellido, email, fnac);
+            DataCliente cliente = new DataCliente();
+            cliente.setNickname(nickname);
+            cliente.setPassword(password);
+            cliente.setApellido(apellido);
+            cliente.setEmail(email);
+            cliente.setFechaNacimiento(Utils.getXMLGregorianCalendar(fnac));
+            cliente.setNombre(nombre);
+
             cliente.setImagen(imagen);
-            controlarUsuario.ingresarDatosCliente(cliente);
+            ProxyUsuario.getInstance().ingresarDatosCliente(cliente);
         } else {
-            DataProveedor proveedor = new DataProveedor(nickname, password, nombre, apellido, email, fnac, nombreCompania, linkSitio);
+            DataProveedor proveedor = new DataProveedor();
+
+            proveedor.setNickname(nickname);
+            proveedor.setPassword(password);
+            proveedor.setApellido(apellido);
+            proveedor.setEmail(email);
+            proveedor.setFechaNacimiento(Utils.getXMLGregorianCalendar(fnac));
+            proveedor.setNombre(nombre);
             proveedor.setImagen(imagen);
-            controlarUsuario.ingresarDatosProveedor(proveedor);
+            proveedor.setLinkSitio(linkSitio);
+            proveedor.setNombreCompania(nombreCompania);
+            ProxyUsuario.getInstance().ingresarDatosProveedor(proveedor);
         }
-        if (controlarUsuario.validarDatosUsuario()) {
-            JOptionPane.showMessageDialog(this, controlarUsuario.getErrors(), "Validacion", JOptionPane.ERROR_MESSAGE);
+        if (ProxyUsuario.getInstance().validarDatosUsuario()) {
+            JOptionPane.showMessageDialog(this, ProxyUsuario.getInstance().getErrors(), "Validacion", JOptionPane.ERROR_MESSAGE);
 
         } else {
 
             JOptionPane.showMessageDialog(this, "Su Usuario se creo correctamente", "Validacion", JOptionPane.DEFAULT_OPTION);
-            controlarUsuario.guardarUsuario();
+            ProxyUsuario.getInstance().guardarUsuario();
             cleanForm();
 
         };

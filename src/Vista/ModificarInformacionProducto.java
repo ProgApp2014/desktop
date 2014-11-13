@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 package Vista;
-
-import Controlador.Clases.IControladorProductos;
+ 
+import clases.ProxyProducto;
 import clases.Utils;
 import controlador.middleware.DataCategoria;
+import controlador.middleware.DataEspecificacion;
 import controlador.middleware.DataEspecificacionProducto;
 import controlador.middleware.DataProveedor;
 import java.awt.BorderLayout;
@@ -45,8 +46,7 @@ public class ModificarInformacionProducto extends JInternalFrame {
     private JDialog dialog;
     private ElegirCategoriaComponente treePane;
     private final JPanel InfoPanel;
-    private final JPanel offsetleft;
-    private final IControladorProductos controlarProducto;
+    private final JPanel offsetleft; 
 
     private int index;
     private final JPanel listaProductosPanel;
@@ -60,9 +60,9 @@ public class ModificarInformacionProducto extends JInternalFrame {
     /**
      * Creates new form VerInfoProductos
      */
-    public ModificarInformacionProducto(IControladorProductos controlarProducto) {
+    public ModificarInformacionProducto( ) {
 
-        this.controlarProducto = controlarProducto;
+ 
 
         setBounds(00, 00, 1000, 700);
         setVisible(true);
@@ -77,7 +77,7 @@ public class ModificarInformacionProducto extends JInternalFrame {
                 openDialog();
             }
         });
-        treePane = new ElegirCategoriaComponente(controlarProducto.listarCategorias(), true);
+        treePane = new ElegirCategoriaComponente(ProxyProducto.getInstance().listarCategorias(), true);
         listaProductosPanel = new JPanel();
         listaProductosPanel.setLayout(new GridLayout(1, 0));
 
@@ -165,13 +165,17 @@ public class ModificarInformacionProducto extends JInternalFrame {
             return;
         }
 
-        DataEspecificacionProducto espProducto = new DataEspecificacionProducto(NroRef, titulo, descripcion, new HashMap(), precioReal, Proveedor, new ArrayList<String>(), new ArrayList<DataCategoria>(), new ArrayList(),new ArrayList());
+        DataEspecificacionProducto espProducto = new DataEspecificacionProducto();
+        espProducto.setDescripcion(descripcion);
+        espProducto.setNombre(titulo);
+        espProducto.setNroReferencia(NroRef);
+        espProducto.setPrecio(precioReal);
+        espProducto.setProveedor(Proveedor);
+        ProxyProducto.getInstance().modificarDatosEspecificacionProducto(espProducto);
 
-        controlarProducto.modificarDatosEspecificacionProducto(espProducto);
+        ProxyProducto.getInstance().listarCategoriasAModificar().forEach((cat) -> {
 
-        controlarProducto.listarCategoriasAModificar().forEach((cat) -> {
-
-            controlarProducto.borrarCategoriaAEspecificacion(cat.getNombre());
+            ProxyProducto.getInstance().borrarCategoriaAEspecificacion(cat.getNombre());
         });
         for(String iter : especificaciones.split("\n")){
             String[] iter2 = iter.split(":");
@@ -179,21 +183,21 @@ public class ModificarInformacionProducto extends JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Las especificaciones deben ingresarse con el formato 'Tipo: Description'", "Validacion", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            controlarProducto.ingresarEspecificacion(iter2[0], iter2[1].trim());
+            ProxyProducto.getInstance().ingresarEspecificacion(iter2[0], iter2[1].trim());
         }
-        controlarProducto.elegirProveedor(Proveedor.getNickname());
-        controlarProducto.ingresarDatosProductos(espProducto);
+        ProxyProducto.getInstance().elegirProveedor(Proveedor.getNickname());
+        ProxyProducto.getInstance().ingresarDatosProductos(espProducto);
 
         categorias.forEach((cat) -> {
-            controlarProducto.agregarCategoriaAEspecificacion(cat);
+            ProxyProducto.getInstance().agregarCategoriaAEspecificacion(cat);
         });
         imagenes.forEach((img) -> {
-            controlarProducto.agregarImagen(img);
+            ProxyProducto.getInstance().agregarImagen(img);
         });
 
-        if (controlarProducto.validarInfo()) {
+        if (ProxyProducto.getInstance().validarInfo()) {
             try {
-                controlarProducto.guardarEspProductoModificado();
+                ProxyProducto.getInstance().guardarEspProductoModificado();
                 JOptionPane.showMessageDialog(this, "Su Producto se ha creado correctamente", "Validacion", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             } catch (Exception e) {
@@ -219,12 +223,12 @@ public class ModificarInformacionProducto extends JInternalFrame {
 
         if (!treePane.getSelectedCategories().isEmpty()) {
             String catName = treePane.getSelectedCategories().iterator().next();
-            controlarProducto.elegirCategoria(catName);
+            ProxyProducto.getInstance().elegirCategoria(catName);
         }
-        Object[][] rowData = new Object[controlarProducto.listarProductosCategoria().size()][2];
+        Object[][] rowData = new Object[ProxyProducto.getInstance().listarProductosCategoria().size()][2];
         index = 0;
 
-        controlarProducto.listarProductosCategoria().forEach((c) -> {
+        ProxyProducto.getInstance().listarProductosCategoria().forEach((c) -> {
             Object[] obj = {c.getNroReferencia(), c.getNombre()};
 
             rowData[index] = obj;
@@ -258,25 +262,25 @@ public class ModificarInformacionProducto extends JInternalFrame {
         TableModel model = listaProductos.getModel();
         int row = listaProductos.getSelectedRow();
         String nroRef = (String) model.getValueAt(row, 0);
-        controlarProducto.elegirEspProducto(nroRef);
-        DataEspecificacionProducto dataProducto = controlarProducto.mostrarDatosProducto(nroRef);
+        ProxyProducto.getInstance().elegirEspProducto(nroRef);
+        DataEspecificacionProducto dataProducto = ProxyProducto.getInstance().mostrarDatosProducto(nroRef);
         form = new Formulario(true);
         form.addField("Titulo", "text", null, dataProducto.getNombre());
         form.addField("NroRef", "text", null, dataProducto.getNroReferencia());
         form.addField("Descripcion", "text", null, dataProducto.getDescripcion());
         
         String especificaciones = "";
-        for(String iter: dataProducto.getEspecificacion().keySet()){
-            especificaciones += iter + ": "+ dataProducto.getEspecificacion().get(iter) + "\n";
+        for(DataEspecificacion de: dataProducto.getEspecificacion()){
+            especificaciones += de.getKey() + ": "+ de.getValue() + "\n";
         }
         form.addField("Especificaciones", "textarea", null, especificaciones);
         form.addField("Precio", "text", null, String.valueOf(dataProducto.getPrecio()));
         form.addField("Stock", "text", null, String.valueOf(dataProducto.getProductos().size()));
-        form.addField("Proveedor", "combo", controlarProducto.listarProveedores().toArray(), null);
+        form.addField("Proveedor", "combo", ProxyProducto.getInstance().listarProveedores().toArray(), null);
 
         ((JComboBox) form.getComponentByName("Proveedor")).setSelectedItem(dataProducto.getProveedor());
 
-        treePane = new ElegirCategoriaComponente(controlarProducto.listarCategorias(), false);
+        treePane = new ElegirCategoriaComponente(ProxyProducto.getInstance().listarCategorias(), false);
 
         sdi = new SelectorDeImagenes();
         sdi.setLocation(700, 10);

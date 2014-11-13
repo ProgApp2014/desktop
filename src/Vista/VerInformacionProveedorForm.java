@@ -1,11 +1,12 @@
 package Vista;
-
-import Controlador.Clases.IControladorUsuarios;
-import Controlador.Clases.ManejadorUsuarios;
+ 
+import clases.ProxyUsuario;
 import clases.Utils;
 import controlador.middleware.DataProveedor;
 import java.awt.event.ActionEvent;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -38,16 +39,15 @@ class VerInformacionProveedorForm extends JInternalFrame {
     private final JTextField nombreCompaniaText;
     private final JTextField linkSitioText;
     private final JButton cerrarBtn;
-    private final IControladorUsuarios controlarUsuario;
-
+ 
     private String imagen;
     private ImagePanel imagePanel;
     private final JPanel contenedorPic;
     private final JScrollPane userListPane;
 
-    public VerInformacionProveedorForm(IControladorUsuarios ICU) {
+    public VerInformacionProveedorForm(   ) {
 
-        controlarUsuario = ICU;
+ 
 
         setBounds(50, 50, 900, 400);
         setVisible(true);
@@ -64,7 +64,7 @@ class VerInformacionProveedorForm extends JInternalFrame {
         contenedor.add(elegirUsuarioLabel);
 
         DefaultListModel tes = new DefaultListModel();
-        List<DataProveedor> clientes = ICU.listarProveedores();
+        List<DataProveedor> clientes = ProxyUsuario.getInstance().listarProveedores();
         clientes.stream().forEach((proveedor) -> {
             tes.addElement(proveedor.getNickname() + " - " + proveedor.getNombre() + " " + proveedor.getApellido());
         });
@@ -81,10 +81,12 @@ class VerInformacionProveedorForm extends JInternalFrame {
                 if (evt.getValueIsAdjusting()) {
                     return;
                 }
-                DataProveedor aux = new DataProveedor(ManejadorUsuarios.getInstance().obtenerProveedores().get(userList.getSelectedValue().split("-")[0].trim()));
+                DataProveedor aux = null;
+                Iterator it = ProxyUsuario.getInstance().listarProveedores().iterator();
+                while(it.hasNext() && (aux = (DataProveedor)it.next()).getNickname()!=userList.getSelectedValue().split("-")[0].trim());
                 nicknameText.setText(aux.getNickname());
                 emailText.setText(aux.getEmail());
-                fNacText.setText(Utils.formatDate(aux.getFechaNacimiento().getTime()));
+                fNacText.setText(Utils.formatDate(aux.getFechaNacimiento()));
 
                 apellidoText.setText(aux.getApellido());
                 nombreText.setText(aux.getNombre());
@@ -206,7 +208,9 @@ class VerInformacionProveedorForm extends JInternalFrame {
         setVisible(false);
         nicknameText.setText("");
         emailText.setText("");
-        fNacText.setText(Utils.formatDate(new Date()));
+        GregorianCalendar g = (GregorianCalendar) GregorianCalendar.getInstance();
+        g.setTime(new Date());
+        fNacText.setText(Utils.getFechaNacFormateada(g));
         apellidoText.setText("");
         nombreText.setText("");
         nombreCompaniaText.setText("");

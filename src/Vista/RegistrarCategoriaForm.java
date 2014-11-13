@@ -1,6 +1,6 @@
 package Vista;
-
-import Controlador.Clases.IControladorProductos;
+ 
+import clases.ProxyProducto;
 import controlador.middleware.DataCategoria;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -22,12 +22,11 @@ class RegistrarCategoriaForm extends JInternalFrame {
     private final JLabel nombre;
     private final JTextField nombreText;
     private final JButton guardarBtn;
-    private final JButton cancelarBtn;
-    private final IControladorProductos controladorProducto;
+    private final JButton cancelarBtn; 
     private JDialog dialog;
     private final ElegirCategoriaComponente treePane;
 
-    public RegistrarCategoriaForm(IControladorProductos ICP) {
+    public RegistrarCategoriaForm( ) {
 
         setBounds(50, 50, 700, 400);
         setVisible(true);
@@ -37,10 +36,8 @@ class RegistrarCategoriaForm extends JInternalFrame {
         contenedor.setSize(700, 400);
         contenedor.setLocation(10, 0);
         add(contenedor);
-
-        controladorProducto = ICP;
-
-        treePane = new ElegirCategoriaComponente(controladorProducto.listarCategorias(), true);
+ 
+        treePane = new ElegirCategoriaComponente(ProxyProducto.getInstance().listarCategorias(), true);
         JButton padre = new JButton("Elegir Categoria Padre");
         padre.setSize(100, 40);
         padre.addActionListener(new ActionListener() {
@@ -119,21 +116,26 @@ class RegistrarCategoriaForm extends JInternalFrame {
         }
 
         String nombre = nombreText.getText();
-        if (controladorProducto.categoryAlreadyExist(nombre)) {
+        if (ProxyProducto.getInstance().categoryAlreadyExist(nombre)) {
             JOptionPane.showMessageDialog(this, "La categoria '"+nombre+"' ya existe ", "Validacion", JOptionPane.ERROR_MESSAGE);
 
             return;
         }
         DataCategoria categoria;
         if (padre == null) {
-            categoria = new DataCategoria(nombre, null);
+            categoria = new DataCategoria();
+            categoria.setNombre(nombre);
+            categoria.setPadre(null);
+            
         } else {
-            DataCategoria dataPadre = controladorProducto.elegirCategoriaPadre(padre);
-            categoria = new DataCategoria(nombre, dataPadre);
+            DataCategoria dataPadre = ProxyProducto.getInstance().elegirCategoriaPadre(padre);
+            categoria = new DataCategoria();
+            categoria.setNombre(nombre);
+            categoria.setPadre(null);
         }
 
-        controladorProducto.ingresarDatosCategoria(categoria);
-        controladorProducto.guardarCategoria();
+        ProxyProducto.getInstance().ingresarDatosCategoria(categoria);
+        ProxyProducto.getInstance().guardarCategoria();
 
         setVisible(false);
         nombreText.setText("");
