@@ -120,4 +120,8 @@ public class ProxyOrden {
         controlador.removerEspecificacionProducto(ref, idOrdenesControlador);
     }
 
+    public List<DataEspecificacionProducto> listarProductosCategoria() {
+     return controlador.listarProductosCategoria(idOrdenesControlador).getItem();    
+    }
+
 }

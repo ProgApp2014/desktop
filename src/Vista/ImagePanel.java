@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 package Vista;
+
+import clases.ImagesProxy;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -38,15 +42,18 @@ public class ImagePanel extends JPanel {
 
     public void loadImg(String path) {
 
-         loadImg(  path,true);
+        loadImg(path, true);
     }
-    public void loadImg(String path,boolean s) {
+
+    public void loadImg(String path, boolean s) {
 
         try {
-            String url = ((s)?ImageHandler.getStaticFolder():"")+path;
-                image = ImageIO.read(new File(url));
+            ImagesProxy ih = new ImagesProxy();
+            byte[] b = ih.getImage(path);
+            InputStream is = new ByteArrayInputStream(b);
+            image = ImageIO.read(is);
         } catch (IOException ex) {
-            
+
         }
     }
 

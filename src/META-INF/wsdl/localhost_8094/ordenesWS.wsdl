@@ -15,6 +15,12 @@
 <part name="arg1" type="xsd:int"></part>
 </message>
 <message name="elegirClienteResponse"></message>
+<message name="listarProductosCategoria">
+<part name="arg0" type="xsd:int"></part>
+</message>
+<message name="listarProductosCategoriaResponse">
+<part name="return" type="tns:dataEspecificacionProductoArray"></part>
+</message>
 <message name="listarCategorias">
 <part name="arg0" type="xsd:int"></part>
 </message>
@@ -101,6 +107,10 @@
 <input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/elegirClienteRequest" message="tns:elegirCliente"></input>
 <output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/elegirClienteResponse" message="tns:elegirClienteResponse"></output>
 </operation>
+<operation name="listarProductosCategoria">
+<input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarProductosCategoriaRequest" message="tns:listarProductosCategoria"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarProductosCategoriaResponse" message="tns:listarProductosCategoriaResponse"></output>
+</operation>
 <operation name="listarCategorias">
 <input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarCategoriasRequest" message="tns:listarCategorias"></input>
 <output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarCategoriasResponse" message="tns:listarCategoriasResponse"></output>
@@ -174,6 +184,15 @@
 </output>
 </operation>
 <operation name="elegirCliente">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="listarProductosCategoria">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
