@@ -1,6 +1,5 @@
 package Vista;
 
- 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
@@ -18,6 +17,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem cancelarOrdOpt;
     private javax.swing.JMenu casosUsoMenu;
     private javax.swing.JMenuItem crearOrdenOpt;
+    private javax.swing.JMenuItem confirmarOrden;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem modDatosProdOpt;
     private javax.swing.JMenu ordenMenu;
@@ -41,6 +41,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private JInternalFrame verInfoClienteVentana;
     private JInternalFrame verInfoProveedorVentana;
     private JMenuItem cargarDatosDePrueba;
+    private ConfirmarOrdenDeCompra confirmarOrdenDeCompra;
 
     /**
      * Creates new form MainWindow
@@ -76,6 +77,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         crearOrdenOpt = new javax.swing.JMenuItem();
         cancelarOrdOpt = new javax.swing.JMenuItem();
         verInfoOrdenOpt = new javax.swing.JMenuItem();
+        confirmarOrden = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -152,14 +154,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         ordenMenu.setText("Ordenes");
 
+        ordenMenu.add(crearOrdenOpt);
         crearOrdenOpt.setText("Crear orden de compra");
         crearOrdenOpt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 crearOrdenOptActionPerformed(evt);
             }
         });
-        ordenMenu.add(crearOrdenOpt);
-
+        ordenMenu.add(confirmarOrden);
+        confirmarOrden.setText("Confirmar orden de compra");
+        confirmarOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmarOrdenDeCompra(evt);
+            }
+        });
         cancelarOrdOpt.setText("Cancelar orden de compra");
         cancelarOrdOpt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,6 +262,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void verInfoOrdenOptActionPerformed(java.awt.event.ActionEvent evt) {
         verOrdenVentana = new VerInformacionOrden(false);
         desktopPane.add(verOrdenVentana);
+    }
+
+    private void confirmarOrdenDeCompra(ActionEvent evt) {
+        confirmarOrdenDeCompra = new ConfirmarOrdenDeCompra();
+
+        desktopPane.add(confirmarOrdenDeCompra);    
     }
 
     private void cancelarOrdenOptActionPerformed(java.awt.event.ActionEvent evt) {
