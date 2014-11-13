@@ -5,16 +5,24 @@
  */
 package Vista;
 
+import clases.ImagesProxy;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -160,7 +168,52 @@ public class SelectorDeImagenes extends JPanel {
         }
 
     }
+    private void addImagenComponent(String f) {
+        
+        FileOutputStream in = null;
+        try {
+            ImagesProxy ih = new ImagesProxy();
+            byte[] b = ih.getImage(f);
+            File ff = new File(f);
+            in = new FileOutputStream(ff);
+            in.write(b);
+            BufferedImage bi = ImageIO.read(ff); 
+            ImageIO.write(bi, f, ff);
+            ImagenComponent ic = new ImagenComponent(ff, editable);
+            ic.setAllowDelete(!this.justOne);
+            imagenes.add(ic);
+            pane.setSize(500, imagenes.size() * 50);
+            pane.repaint();
+            ic.setLocation(10, imagenes.size() * 40);
+            pane.add(ic);
+            SpringUtilities.makeCompactGrid(pane, imagenes.size(), 1, 0, 0, 6, 6);
+            ic.addNotifyEventListener(new NotifyEventListener() {
+                
+                @Override
+                public void notifyEvent(NotifyEvent evt) {
+                    
+                    imagenBorrada(evt);
+                    
+                }
+                
+            }); revalidate();
+        repaint();
+            if (getParent() != null) {
+                getParent().repaint();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SelectorDeImagenes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SelectorDeImagenes.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                Logger.getLogger(SelectorDeImagenes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
+    }
     public HashSet<String> getListaDeImagenes() {
         HashSet<String> imgPaths = new HashSet<String>();
         Iterator<ImagenComponent> it = imagenes.iterator();
@@ -199,7 +252,7 @@ public class SelectorDeImagenes extends JPanel {
     void load(List<String> imagenesPreload) {
         imagenesPreload.forEach((str) -> {
             System.out.println("str "+str );
-            addImagenComponent(new File(str));
+            addImagenComponent( str );
         });
     }
 }
