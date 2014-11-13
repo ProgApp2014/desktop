@@ -1,5 +1,5 @@
 package Vista;
- 
+
 import clases.ProxyUsuario;
 import clases.Utils;
 import controlador.middleware.DataProveedor;
@@ -39,15 +39,13 @@ class VerInformacionProveedorForm extends JInternalFrame {
     private final JTextField nombreCompaniaText;
     private final JTextField linkSitioText;
     private final JButton cerrarBtn;
- 
+
     private String imagen;
     private ImagePanel imagePanel;
     private final JPanel contenedorPic;
     private final JScrollPane userListPane;
 
-    public VerInformacionProveedorForm(   ) {
-
- 
+    public VerInformacionProveedorForm() {
 
         setBounds(50, 50, 900, 400);
         setVisible(true);
@@ -83,7 +81,12 @@ class VerInformacionProveedorForm extends JInternalFrame {
                 }
                 DataProveedor aux = null;
                 Iterator it = ProxyUsuario.getInstance().listarProveedores().iterator();
-                while(it.hasNext() && (aux = (DataProveedor)it.next()).getNickname()!=userList.getSelectedValue().split("-")[0].trim());
+                while (it.hasNext()) {
+                    aux = (DataProveedor) it.next();
+                    if (aux.getNickname().equals(userList.getSelectedValue().split("-")[0].trim())) {
+                        break;
+                    }
+                }
                 nicknameText.setText(aux.getNickname());
                 emailText.setText(aux.getEmail());
                 fNacText.setText(Utils.formatDate(aux.getFechaNacimiento()));
@@ -94,7 +97,7 @@ class VerInformacionProveedorForm extends JInternalFrame {
                 linkSitioText.setText(aux.getLinkSitio());
                 imagen = aux.getImagen();
 
-                    contenedorPic.removeAll();
+                contenedorPic.removeAll();
                 if (imagen != null && !imagen.isEmpty()) {
 
                     contenedorPic.removeAll();
