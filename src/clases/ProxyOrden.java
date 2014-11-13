@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.clases;
-
-import Controlador.Clases.Fabrica;
-import Controlador.DataTypes.DataCategoria;
-import Controlador.DataTypes.DataCliente;
-import Controlador.DataTypes.DataEspecificacionProducto;
-import Controlador.DataTypes.DataOrdenCompra;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+package clases;
+ 
+import controlador.middleware.ControladorOrdenesWS;
+import controlador.middleware.ControladorOrdenesWSService;
+import controlador.middleware.DataCategoria;
+import controlador.middleware.DataCliente;
+import controlador.middleware.DataEspecificacionProducto;
+import controlador.middleware.DataOrdenCompra;
 import java.util.List;
 
 /**
@@ -21,10 +19,15 @@ import java.util.List;
  */
 public class ProxyOrden {
 
-    private final Integer idOrdenesControlador;
+    private Integer idOrdenesControlador;
+    private final ControladorOrdenesWS controlador;
 
     public ProxyOrden() {
-        idOrdenesControlador = Fabrica.getInstance().getControladorOrdenes(null).getId();
+
+        idOrdenesControlador = null;
+        ControladorOrdenesWSService servicio = new ControladorOrdenesWSService();
+        controlador = servicio.getControladorOrdenesWSPort();
+        idOrdenesControlador = controlador.getId();
     }
 
     private static ProxyOrden instance = null;
@@ -39,117 +42,82 @@ public class ProxyOrden {
         return ProxyOrden.instance;
     }
 
-    public String retNombre() {
-        return "sapeeee rodro";
-    }
-
     public List<DataCliente> listarClientes() {
-        List<DataCliente> l = Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).listarClientes();
-//        List<DataClienteWS> ret = new ArrayList();
-//        Iterator it = l.iterator();
-//        while (it.hasNext()) {
-//            ret.add(ConvertidorFrontEnd.toCliente((DataCliente) it.next()));
-//        }
-        return l;
+
+        return  controlador.listarClientes(idOrdenesControlador).getItem();
 
     }
 
     public void elegirCliente(String nickname) {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).elegirCategoria(nickname);
+        controlador.elegirCliente(nickname, idOrdenesControlador);
     }
 
     public List<DataCategoria> listarCategorias() {
-        List<DataCategoria> l = Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).listarCategorias();
-//        List<DataCategoriaWS> ret = new ArrayList();
-//        Iterator it = l.iterator();
-//        while (it.hasNext()) {
-//            ret.add(ConvertidorFrontEnd.toCategoria((DataCategoria) it.next()));
-//        }
-        return l;
+
+        return   controlador.listarCategorias(idOrdenesControlador).getItem();
 
     }
 
     public void elegirCategoria(String categoria) {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).elegirCategoria(categoria);
 
+        controlador.elegirCategoria(categoria, idOrdenesControlador);
     }
 
     public List<DataEspecificacionProducto> listarEspecificacionProductos() {
-        List<DataEspecificacionProducto> l = Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).listarEspecificacionProductos();
-
-//        List<DataEspecificacionProductoWS> ret = new ArrayList();
-//        Iterator it = l.iterator();
-//        while (it.hasNext()) {
-//            ret.add(ConvertidorFrontEnd.toEspecificacionProducto((DataEspecificacionProducto) it.next()));
-//        }
-        return l;
+        return  controlador.listarEspecificacionProductos(idOrdenesControlador).getItem();
 
     }
 
     public void elegirEspecificacionProducto(String nroRef) {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).elegirEspecificacionProducto(nroRef);
+        controlador.elegirEspecificacionProducto(nroRef, idOrdenesControlador);
     }
 
     public List<DataEspecificacionProducto> listarProductosEnOrden() {
-
-        List<DataEspecificacionProducto> l = Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).listarProductosEnOrden();
-       
-//        List<DataEspecificacionProductoWS> ret = new ArrayList();
-//        Iterator it = l.iterator();
-//        while (it.hasNext()) {
-//            ret.add(ConvertidorFrontEnd.toEspecificacionProducto((DataEspecificacionProducto) it.next()));
-//        }
-        return l;
+        return  controlador.listarProductosEnOrden(idOrdenesControlador).getItem();
 
     }
 
     public void elegirProducto(Integer id) {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).elegirProducto(id);
+
+        controlador.elegirProducto(id, idOrdenesControlador);
     }
 
     public void elegirCantidadProducto(Integer cantidad) {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).elegirCantidadProducto(cantidad);
+        controlador.elegirCantidadProducto(cantidad, idOrdenesControlador);
     }
 
     public void generarItemOrden() {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).generarItemOrden();
+
+        controlador.generarItemOrden(idOrdenesControlador);
     }
 
     public void guardarOrden(DataOrdenCompra dataOrden) {
 
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).guardarOrden(dataOrden);
+        controlador.guardarOrden(dataOrden, idOrdenesControlador);
     }
 
     public List<DataOrdenCompra> listarOrdenes() {
-
-        List<DataOrdenCompra> l = Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).listarOrdenes();
-        
-//        List<DataOrdenCompraWS> ret = new ArrayList();
-//        Iterator it = l.iterator();
-//        while (it.hasNext()) {
-//            ret.add(ConvertidorFrontEnd.toOrden((DataOrdenCompra) it.next()));
-//        }
-        return l;
+        return   controlador.listarOrdenes(idOrdenesControlador).getItem();
 
     }
 
     public void elegirOrden(Integer nroOrden) {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).elegirOrden(nroOrden);
-
+        controlador.elegirOrden(nroOrden, idOrdenesControlador);
     }
 
     public void borrarOrdenCompra() {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).borrarOrdenCompra();
+
+        controlador.borrarOrdenCompra(idOrdenesControlador);
     }
 
     public DataOrdenCompra mostrarDatosOrden() {
-        DataOrdenCompra l = Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).mostrarDatosOrden();
-        return l;
 
+        return controlador.mostrarDatosOrden(idOrdenesControlador);
     }
 
     public void removerEspecificacionProducto(String ref) {
-        Fabrica.getInstance().getControladorOrdenes(idOrdenesControlador).removerEspecificacionProducto(ref);
+
+        controlador.removerEspecificacionProducto(ref, idOrdenesControlador);
     }
 
 }

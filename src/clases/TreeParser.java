@@ -4,14 +4,13 @@
  * and open the template in the editor.
  */
 package clases;
-
-import Controlador.DataTypes.DataCategoria;
+ 
+import controlador.middleware.DataCategoria;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -45,7 +44,7 @@ public class TreeParser {
 
             while (!padresAgregados) {
 
-                if (!auxDeBusqueda.tienePadre()) {
+                if (auxDeBusqueda.getPadre() == null) {
 
                     NodoCategoria nodoRaiz = new NodoCategoria(auxDeBusqueda.getNombre());
                     if (auxHuerfana != null) {
@@ -74,7 +73,7 @@ public class TreeParser {
 
                         NodoCategoria padre = new NodoCategoria(auxDeBusqueda.getPadre().getNombre());
                         padre.addHijo(new NodoCategoria(auxDeBusqueda.getNombre()));
-                        if (auxDeBusqueda.getPadre().tienePadre()) {
+                        if (auxDeBusqueda.getPadre().getPadre() != null) {
                             auxDeBusqueda = auxDeBusqueda.getPadre().getPadre();
                             auxHuerfana = padre;
                         } else {

@@ -5,14 +5,12 @@
  */
 package clases;
 
-import Controlador.Clases.Fabrica;
-import Controlador.DataTypes.DataCategoria;
-import Controlador.DataTypes.DataCliente;
-import Controlador.DataTypes.DataOrdenCompra;
-import Controlador.DataTypes.DataProveedor;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import controlador.middleware.ControladorUsuariosWS;
+import controlador.middleware.ControladorUsuariosWSService;
+import controlador.middleware.DataCliente;
+import controlador.middleware.DataEspecificacionProducto;
+import controlador.middleware.DataOrdenCompra;
+import controlador.middleware.DataProveedor;
 import java.util.List;
 
 /**
@@ -21,14 +19,17 @@ import java.util.List;
  */
 public class ProxyUsuario {
 
-    private final Integer idUsuariosControlador;
+    private Integer idUsuariosControlador;
 
     private static ProxyUsuario instance = null;
+    private final ControladorUsuariosWS controlador;
 
     public ProxyUsuario() {
 
-        idUsuariosControlador = Fabrica.getInstance().getControladorUsuarios(null).getId();
-
+        idUsuariosControlador = null;
+        ControladorUsuariosWSService servicio = new ControladorUsuariosWSService();
+        controlador = servicio.getControladorUsuariosWSPort();
+        idUsuariosControlador = controlador.getId();
     }
 
     public static ProxyUsuario getInstance() {
@@ -42,80 +43,75 @@ public class ProxyUsuario {
     }
 
     public void ingresarDatosCliente(DataCliente cliente) {
-        Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).ingresarDatosCliente(cliente);
+        controlador.ingresarDatosCliente(cliente, idUsuariosControlador);
     }
 
     public void ingresarDatosProveedor(DataProveedor proveedor) {
-        Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).ingresarDatosProveedor(proveedor);
+        
+        controlador.ingresarDatosProveedor(proveedor, idUsuariosControlador);
     }
 
     public Boolean validarDatosUsuario() {
-        return Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).validarDatosUsuario();
+        
+        return controlador.validarDatosUsuario( idUsuariosControlador);
 
     }
 
     public void guardarUsuario() {
-        Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).guardarUsuario();
+        controlador.guardarUsuario( idUsuariosControlador);
     }
 
     public List<DataCliente> listarClientes() {
-        List<DataCliente> l = Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).listarClientes();
-
-//        List<DataClienteWS> ret = new ArrayList();
-//        Iterator it = l.iterator();
-//        while (it.hasNext()) {
-//            ret.add(ConvertidorFrontEnd.toCliente((DataCliente) it.next()));
-//        }
-        return l;
+        return  controlador.listarClientes( idUsuariosControlador).getItem();
+       
     }
 
     public void elegirCliente(String nickname) {
-        Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).elegirCliente(nickname);
-
+        controlador.elegirCliente(nickname, idUsuariosControlador);
     }
 
     public DataCliente mostrarDatosCliente() {
-        DataCliente l = Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).mostrarDatosCliente();
-        return l;
-
+        return controlador.mostrarDatosCliente( idUsuariosControlador);
     }
 
     public List<DataOrdenCompra> listarOrdenesCliente() {
-        List<DataOrdenCompra> l = Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).listarOrdenesCliente();
-//        List<DataOrdenCompraWS> ret = new ArrayList();
-//        Iterator it = l.iterator();
-//        while (it.hasNext()) {
-//            ret.add(ConvertidorFrontEnd.toOrden((DataOrdenCompra) it.next()));
-//        }
-        return l;
+        return  controlador.listarOrdenesCliente( idUsuariosControlador).getItem();
 
     }
 
     public List<DataProveedor> listarProveedores() {
-        List<DataProveedor> l = Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).listarProveedores();
-
-//        List<DataProveedorWS> ret = new ArrayList();
-//        Iterator it = l.iterator();
-//        while (it.hasNext()) {
-//            ret.add(ConvertidorFrontEnd.toProveedor((DataProveedor) it.next()));
-//        }
-        return l;
+        return controlador.listarProveedores( idUsuariosControlador).getItem();
 
     }
 
     public void elegirProveedor(String nickname) {
-        Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).elegirProveedor(nickname);
+          controlador.elegirProveedor( nickname,idUsuariosControlador);
     }
 
     public DataProveedor mostrarDatosProveedor() {
-        DataProveedor l = Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).mostrarDatosProveedor();
-
-        return l;
-
+        return  controlador.mostrarDatosProveedor( idUsuariosControlador);
     }
 
     public String getErrors() {
-        return Fabrica.getInstance().getControladorUsuarios(idUsuariosControlador).getErrors();
+        
+        return  controlador.getErrors( idUsuariosControlador);
 
+    }
+
+    public Boolean login(String nickname, String hashPassword) {
+        return  controlador.login( nickname,hashPassword,idUsuariosControlador);
+    }
+
+    public Boolean esProveedor(String nickname) {
+        
+        return  controlador.esProveedor( nickname,idUsuariosControlador);
+    }
+
+    public Boolean esCliente(String nickname) {
+        return  controlador.esCliente( nickname,idUsuariosControlador);
+    }
+
+    public List<DataEspecificacionProducto> listarProductosProveedor() {
+        return  controlador.listarProductosProveedor( idUsuariosControlador).getItem();
     }
 }

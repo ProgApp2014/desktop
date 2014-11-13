@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8094/usuariosWS?wsdl" uri="wsdl/localhost_8094/usuariosWS.wsdl"/>
+    <system systemId="http://localhost:8094/usuariosWS?xsd=1" uri="wsdl/localhost_8094/usuariosWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8094/imageWS?wsdl" uri="wsdl/localhost_8094/imageWS.wsdl"/>
+    <system systemId="http://localhost:8094/ordenesWS?wsdl" uri="wsdl/localhost_8094/ordenesWS.wsdl"/>
+    <system systemId="http://localhost:8094/ordenesWS?xsd=1" uri="wsdl/localhost_8094/ordenesWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8094/productosWS?wsdl" uri="wsdl/localhost_8094/productosWS.wsdl"/>
+    <system systemId="http://localhost:8094/productosWS?xsd=1" uri="wsdl/localhost_8094/productosWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8094/productosWS?xsd=2" uri="wsdl/localhost_8094/productosWS.xsd_2.xsd"/>
+</catalog>

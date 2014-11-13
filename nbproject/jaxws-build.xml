@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+        *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
+        *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
+        *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
+        *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
+
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+    <!--
+                ===================
+                JAX-WS WSIMPORT SECTION
+                ===================
+            -->
+    <target name="wsimport-init" depends="init">
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${libs.jaxws21.classpath}"/>
+        </taskdef>
+    </target>
+    <target name="wsimport-client-productosWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/productosWS"/>
+        <property name="wsdl-productosWS" location="xml-resources/web-service-references/productosWS/wsdl/localhost_8094/productosWS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/productosWS" destdir="${build.generated.dir}/jax-wsCache/productosWS" wsdl="${wsdl-productosWS}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8094/productosWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-productosWS}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/productosWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/productosWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-productosWS" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/productosWS"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/controlador/middleware"/>
+    </target>
+    <target name="wsimport-client-ordenesWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/ordenesWS"/>
+        <property name="wsdl-ordenesWS" location="xml-resources/web-service-references/ordenesWS/wsdl/localhost_8094/ordenesWS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/ordenesWS" destdir="${build.generated.dir}/jax-wsCache/ordenesWS" wsdl="${wsdl-ordenesWS}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8094/ordenesWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-ordenesWS}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/ordenesWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/ordenesWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-ordenesWS" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/ordenesWS"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/controlador/middleware"/>
+    </target>
+    <target name="wsimport-client-usuariosWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/usuariosWS"/>
+        <property name="wsdl-usuariosWS" location="xml-resources/web-service-references/usuariosWS/wsdl/localhost_8094/usuariosWS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/usuariosWS" destdir="${build.generated.dir}/jax-wsCache/usuariosWS" wsdl="${wsdl-usuariosWS}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8094/usuariosWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-usuariosWS}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/usuariosWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/usuariosWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-usuariosWS" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/usuariosWS"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/controlador/middleware"/>
+    </target>
+    <target name="wsimport-client-imageWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/imageWS"/>
+        <property name="wsdl-imageWS" location="xml-resources/web-service-references/imageWS/wsdl/localhost_8094/imageWS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/imageWS" destdir="${build.generated.dir}/jax-wsCache/imageWS" wsdl="${wsdl-imageWS}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8094/imageWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-imageWS}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/imageWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/imageWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-imageWS" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/imageWS"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/controlador/middleware"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-productosWS, wsimport-client-ordenesWS, wsimport-client-usuariosWS, wsimport-client-imageWS"/>
+</project>

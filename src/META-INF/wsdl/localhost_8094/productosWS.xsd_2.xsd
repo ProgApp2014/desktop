@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.2.9-b130926.1035 svn-revision#5f6196f2b90e9460065a4c2f4e30e065b245e51e. --><xs:schema xmlns:tns="http://Middleware.Controlador/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://Middleware.Controlador/">
+
+<xs:complexType name="dataEspecificacionProducto">
+<xs:sequence>
+<xs:element name="categorias" type="tns:dataCategoria" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="comentarios" type="tns:dataComentario" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="especificacion" type="tns:dataEspecificacion" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="imagenes" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="nombre" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nroReferencia" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="precio" type="xs:float" minOccurs="0"></xs:element>
+<xs:element name="productos" type="tns:dataProducto" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+<xs:element name="proveedor" type="tns:dataProveedor" minOccurs="0"></xs:element>
+<xs:element name="stock" type="xs:int"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataCategoria">
+<xs:sequence>
+<xs:element name="listaProductos">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="key" minOccurs="0" type="xs:string"></xs:element>
+<xs:element name="value" minOccurs="0" type="tns:dataEspecificacionProducto"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="nombre" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="padre" type="tns:dataCategoria" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataComentario">
+<xs:sequence>
+<xs:element name="cliente" type="tns:dataCliente" minOccurs="0"></xs:element>
+<xs:element name="comentario" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="especificacionProducto" type="tns:dataEspecificacionProducto" minOccurs="0"></xs:element>
+<xs:element name="fecha" type="xs:dateTime" minOccurs="0"></xs:element>
+<xs:element name="id" type="xs:int" minOccurs="0"></xs:element>
+<xs:element name="padre" type="tns:dataComentario" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataCliente">
+<xs:complexContent>
+<xs:extension base="tns:dataUsuario">
+<xs:sequence></xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="dataUsuario">
+<xs:sequence>
+<xs:element name="apellido" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="email" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="fechaNacimiento" type="xs:dateTime" minOccurs="0"></xs:element>
+<xs:element name="imagen" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nickname" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nombre" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="password" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataEspecificacion">
+<xs:sequence>
+<xs:element name="key" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="value" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataProducto">
+<xs:sequence>
+<xs:element name="enOrden" type="xs:boolean" minOccurs="0"></xs:element>
+<xs:element name="especificacionProducto" type="tns:dataEspecificacionProducto" minOccurs="0"></xs:element>
+<xs:element name="id" type="xs:int" minOccurs="0"></xs:element>
+<xs:element name="idEspecifico" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataProveedor">
+<xs:complexContent>
+<xs:extension base="tns:dataUsuario">
+<xs:sequence>
+<xs:element name="linkSitio" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="nombreCompania" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="dataMapEspProductos">
+<xs:sequence>
+<xs:element name="categoria" type="xs:string" minOccurs="0"></xs:element>
+<xs:element name="list" type="tns:dataEspecificacionProducto" nillable="true" minOccurs="0" maxOccurs="unbounded"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataEspecificacionProductoArray" final="#all">
+<xs:sequence>
+<xs:element name="item" type="tns:dataEspecificacionProducto" minOccurs="0" maxOccurs="unbounded" nillable="true"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataMapEspProductosArray" final="#all">
+<xs:sequence>
+<xs:element name="item" type="tns:dataMapEspProductos" minOccurs="0" maxOccurs="unbounded" nillable="true"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataProveedorArray" final="#all">
+<xs:sequence>
+<xs:element name="item" type="tns:dataProveedor" minOccurs="0" maxOccurs="unbounded" nillable="true"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataCategoriaArray" final="#all">
+<xs:sequence>
+<xs:element name="item" type="tns:dataCategoria" minOccurs="0" maxOccurs="unbounded" nillable="true"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataComentarioArray" final="#all">
+<xs:sequence>
+<xs:element name="item" type="tns:dataComentario" minOccurs="0" maxOccurs="unbounded" nillable="true"></xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
