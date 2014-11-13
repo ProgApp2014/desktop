@@ -5,7 +5,6 @@
  */
 package Vista;
 
- 
 import clases.ProxyOrden;
 import clases.Utils;
 import controlador.middleware.DataEspecificacionProducto;
@@ -36,7 +35,6 @@ import javax.swing.event.ListSelectionListener;
  */
 public class VerInformacionOrden extends JInternalFrame {
 
- 
     private final JPanel contenedor;
     private final JList<String> ordenList;
     private final JLabel nroRef;
@@ -57,8 +55,8 @@ public class VerInformacionOrden extends JInternalFrame {
     private final JButton borrarBtn;
     private boolean modoEdicion;
 
-    public VerInformacionOrden( boolean modoEdicion) {
-        
+    public VerInformacionOrden(boolean modoEdicion) {
+
         this.modoEdicion = modoEdicion;
         setBounds(50, 50, 700, 600);
         setVisible(true);
@@ -74,10 +72,9 @@ public class VerInformacionOrden extends JInternalFrame {
         elegirUsuarioLabel.setBounds(0, 10, 150, 20);
         contenedor.add(elegirUsuarioLabel);
 
-       
         ordenList = new JList<String>();
         fillOrdenList();
- 
+
         ordenList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         ordenList.setBounds(0, 50, 200, 300);
         scrollPaneTableDetail = new JScrollPane();
@@ -90,11 +87,16 @@ public class VerInformacionOrden extends JInternalFrame {
                 if (evt.getValueIsAdjusting() || ordenList.getSelectedValue() == null) {
                     return;
                 }
-                
+
                 Integer ordenId = Integer.parseInt(ordenList.getSelectedValue().split("-")[0].trim());
                 DataOrdenCompra aux = null;
                 Iterator it = ProxyOrden.getInstance().listarOrdenes().iterator();
-                while(it.hasNext() && (aux = (DataOrdenCompra)it.next()).getNroOrden()!=ordenId);
+                while (it.hasNext()) {
+                    aux = (DataOrdenCompra) it.next();
+                    if (aux.getNroOrden().equals(ordenId)) {
+                        break;
+                    }
+                }
                 ProxyOrden.getInstance().elegirOrden(aux.getNroOrden());
                 nroRefText.setText(String.valueOf(aux.getNroOrden()));
                 fechaVentaText.setText(Utils.formatDate(aux.getFecha()));
@@ -228,13 +230,13 @@ public class VerInformacionOrden extends JInternalFrame {
     }
 
     private void fillOrdenList() {
-        
-         DefaultListModel tes = new DefaultListModel();
+
+        DefaultListModel tes = new DefaultListModel();
         List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenes();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden.getNroOrden() + " - " + orden.getFecha());
         });
-       
+
         ordenList.setModel(tes);
         ordenList.revalidate();
     }
@@ -269,4 +271,3 @@ public class VerInformacionOrden extends JInternalFrame {
 
     }
 }
- 
