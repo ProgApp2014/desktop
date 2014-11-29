@@ -51,9 +51,10 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
 
     private JTable listarClientes;
     private JScrollPane scrollPaneTableDetail;
-    private final JTextField fechaVentaText; 
+    private final JTextField fechaVentaText;
     private boolean modoEdicion;
     private int ordenId;
+
     public ConfirmarOrdenDeCompra() {
         this.modoEdicion = false;
         setBounds(50, 50, 700, 600);
@@ -79,7 +80,6 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
         ordenList.addListSelectionListener(new ListSelectionListener() {
             private Object[][] rowData;
             private int index;
-            
 
             @Override
             public void valueChanged(ListSelectionEvent evt) {
@@ -194,8 +194,7 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
                 cancelar(e);
             }
         });
-         
-       
+
         confirmarBtn.setBounds(350, 430, 100, 40);
         cancelarBtn.setBounds(470, 430, 100, 40);
         add(confirmarBtn);
@@ -226,7 +225,7 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
     private void fillOrdenList() {
 
         DefaultListModel tes = new DefaultListModel();
-        List<DataOrdenCompra> ordenes = (List<DataOrdenCompra>) ProxyOrden.getInstance().listarOrdenesAPreparar();
+        List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenesAPreparar();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden.getNroOrden() + " - " + Utils.formatDate(orden.getFecha()));
         });

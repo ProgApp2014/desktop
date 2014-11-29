@@ -68,12 +68,6 @@
 <part name="arg1" type="xsd:int"></part>
 </message>
 <message name="guardarOrdenResponse"></message>
-<message name="listarOrdenes">
-<part name="arg0" type="xsd:int"></part>
-</message>
-<message name="listarOrdenesResponse">
-<part name="return" type="tns:dataOrdenCompraArray"></part>
-</message>
 <message name="elegirOrden">
 <part name="arg0" type="xsd:int"></part>
 <part name="arg1" type="xsd:int"></part>
@@ -118,6 +112,12 @@
 <part name="arg0" type="xsd:int"></part>
 </message>
 <message name="listarOrdenesAPrepararResponse">
+<part name="return" type="tns:dataOrdenCompraArray"></part>
+</message>
+<message name="listarOrdenes">
+<part name="arg0" type="xsd:int"></part>
+</message>
+<message name="listarOrdenesResponse">
 <part name="return" type="tns:dataOrdenCompraArray"></part>
 </message>
 <message name="getId"></message>
@@ -173,10 +173,6 @@
 <input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/guardarOrdenRequest" message="tns:guardarOrden"></input>
 <output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/guardarOrdenResponse" message="tns:guardarOrdenResponse"></output>
 </operation>
-<operation name="listarOrdenes">
-<input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarOrdenesRequest" message="tns:listarOrdenes"></input>
-<output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarOrdenesResponse" message="tns:listarOrdenesResponse"></output>
-</operation>
 <operation name="elegirOrden" parameterOrder="arg0 arg1">
 <input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/elegirOrdenRequest" message="tns:elegirOrden"></input>
 <output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/elegirOrdenResponse" message="tns:elegirOrdenResponse"></output>
@@ -212,6 +208,10 @@
 <operation name="listarOrdenesAPreparar">
 <input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarOrdenesAPrepararRequest" message="tns:listarOrdenesAPreparar"></input>
 <output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarOrdenesAPrepararResponse" message="tns:listarOrdenesAPrepararResponse"></output>
+</operation>
+<operation name="listarOrdenes">
+<input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarOrdenesRequest" message="tns:listarOrdenes"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarOrdenesResponse" message="tns:listarOrdenesResponse"></output>
 </operation>
 <operation name="getId">
 <input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/getIdRequest" message="tns:getId"></input>
@@ -328,15 +328,6 @@
 <soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
 </output>
 </operation>
-<operation name="listarOrdenes">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
-</input>
-<output>
-<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
-</output>
-</operation>
 <operation name="elegirOrden">
 <soap:operation soapAction=""></soap:operation>
 <input>
@@ -410,6 +401,15 @@
 </output>
 </operation>
 <operation name="listarOrdenesAPreparar">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="listarOrdenes">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>

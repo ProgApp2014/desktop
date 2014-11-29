@@ -67,7 +67,7 @@ public class CancelarOrdenDeCompra extends JInternalFrame {
         contenedor.add(elegirUsuarioLabel);
 
         DefaultListModel tes = new DefaultListModel();
-        List<DataOrdenCompra> ordenes = (List<DataOrdenCompra>) ProxyOrden.getInstance().listarOrdenesAPreparar();
+        List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenesAPreparar();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden);
         });

@@ -141,10 +141,10 @@ public class ProxyOrden {
         controlador.agregarEstadoOrdenPreparada(nroOrden, idOrdenesControlador);
     }
 
-    public DataOrdenCompraArray listarOrdenesAPreparar() {
+    public List<DataOrdenCompra> listarOrdenesAPreparar() {
 
-        return controlador.listarOrdenesAPreparar(idOrdenesControlador);
-    } 
- 
+        return controlador.listarOrdenesAPreparar(idOrdenesControlador).getItem();
+
+    }
 
 }

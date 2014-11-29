@@ -96,7 +96,8 @@ public class VerInformacionOrden extends JInternalFrame {
 
                 Integer ordenId = Integer.parseInt(ordenList.getSelectedValue().split("-")[0].trim());
                 DataOrdenCompra aux = null;
-                Iterator it = ProxyOrden.getInstance().listarOrdenes().iterator();
+                List<DataOrdenCompra> ordenes = (modoEdicion)?ProxyOrden.getInstance().listarOrdenesAPreparar():ProxyOrden.getInstance().listarOrdenes();
+                Iterator it = ordenes.iterator();
                 while (it.hasNext()) {
                     aux = (DataOrdenCompra) it.next();
                     if (aux.getNroOrden().equals(ordenId)) {
@@ -220,7 +221,7 @@ public class VerInformacionOrden extends JInternalFrame {
         productos.setBounds(220, 300, 150, 10);
         contenedor.add(productos);
 
-        cancelarBtn = new JButton("Cancelar");
+        cancelarBtn = new JButton("Cerrar");
 
         cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -228,7 +229,7 @@ public class VerInformacionOrden extends JInternalFrame {
                 cancelar(e);
             }
         });
-        borrarBtn = new JButton("Eliminar");
+        borrarBtn = new JButton("Cancelar Orden ");
         if (modoEdicion) {
             borrarBtn.addActionListener(new java.awt.event.ActionListener() {
                 @Override
@@ -236,10 +237,10 @@ public class VerInformacionOrden extends JInternalFrame {
                     borrarOrden(e);
                 }
             });
-            borrarBtn.setBounds(250, 430, 100, 40);
+            borrarBtn.setBounds(250, 430, 200, 40);
             add(borrarBtn);
         }
-        cancelarBtn.setBounds(370, 430, 100, 40);
+        cancelarBtn.setBounds(470, 430, 100, 40);
         add(cancelarBtn);
     }
 
@@ -263,16 +264,14 @@ public class VerInformacionOrden extends JInternalFrame {
     private void borrarOrden(ActionEvent evt) {
         Integer nroOrden = Integer.valueOf(nroRefText.getText());
         if (JOptionPane.showConfirmDialog(this, "Esta seguro que desea cancelar la oden de compra? \nEste paso no se puede deshacer", "", JOptionPane.WARNING_MESSAGE) == 0) {
-            ProxyOrden.getInstance().elegirOrden(nroOrden);
-            ProxyOrden.getInstance().borrarOrdenCompra();
-            fillOrdenList();
+           ProxyOrden.getInstance().agregarEstadoOrdenCancelada(nroOrden);
         }
     }
 
     private void fillOrdenList() {
 
         DefaultListModel tes = new DefaultListModel();
-        List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenes();
+        List<DataOrdenCompra> ordenes = (modoEdicion)?ProxyOrden.getInstance().listarOrdenesAPreparar():ProxyOrden.getInstance().listarOrdenes();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden.getNroOrden() + " - " + Utils.formatDate(orden.getFecha()));
         });
