@@ -72,7 +72,7 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
         contenedor.add(elegirUsuarioLabel);
 
         ordenList = new JList<String>();
-        fillOrdenList();
+        
 
         ordenList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         ordenList.setBounds(0, 50, 200, 300);
@@ -199,10 +199,16 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
         cancelarBtn.setBounds(470, 430, 100, 40);
         add(confirmarBtn);
         add(cancelarBtn);
+        fillOrdenList();
     }
 
     private void confirmar(ActionEvent e) {
-        ProxyOrden.getInstance().agregarEstadoOrdenPreparada(ordenId);
+        if (JOptionPane.showConfirmDialog(this, "Esta seguro que desea cambiar el estado de esta orden", "", JOptionPane.WARNING_MESSAGE) == 0) {
+
+            ProxyOrden.getInstance().agregarEstadoOrdenPreparada(ordenId);
+            JOptionPane.showMessageDialog(this, "Orden Confirmada");
+            fillOrdenList();
+        }
     }
 
     private void cancelar(ActionEvent evt) {
@@ -223,7 +229,15 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
     }
 
     private void fillOrdenList() {
-
+        nroRefText.setText("");
+        fechaVentaText.setText("");
+        precioTotalText.setText("");
+        clienteText.setText(" ");
+        scrollPaneTableDetail.removeAll();
+        scrollPaneTableDetail.removeAll();
+        contenedor.validate();
+        contenedor.repaint();
+        repaint();
         DefaultListModel tes = new DefaultListModel();
         List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenesAPreparar();
         ordenes.stream().forEach((orden) -> {

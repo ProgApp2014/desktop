@@ -77,7 +77,6 @@ public class VerInformacionOrden extends JInternalFrame {
         contenedor.add(elegirUsuarioLabel);
 
         ordenList = new JList<String>();
-        fillOrdenList();
 
         ordenList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         ordenList.setBounds(0, 50, 200, 300);
@@ -96,7 +95,7 @@ public class VerInformacionOrden extends JInternalFrame {
 
                 Integer ordenId = Integer.parseInt(ordenList.getSelectedValue().split("-")[0].trim());
                 DataOrdenCompra aux = null;
-                List<DataOrdenCompra> ordenes = (modoEdicion)?ProxyOrden.getInstance().listarOrdenesAPreparar():ProxyOrden.getInstance().listarOrdenes();
+                List<DataOrdenCompra> ordenes = (modoEdicion) ? ProxyOrden.getInstance().listarOrdenesAPreparar() : ProxyOrden.getInstance().listarOrdenes();
                 Iterator it = ordenes.iterator();
                 while (it.hasNext()) {
                     aux = (DataOrdenCompra) it.next();
@@ -122,12 +121,12 @@ public class VerInformacionOrden extends JInternalFrame {
                         mp.get(producto.getNroReferencia()).incrementar();
                     }
                 });
-                
+
                 index = 0;
                 rowData = new Object[1][aux.getEstados().size()];
-                Object[] row =  new Object[aux.getEstados().size()];
+                Object[] row = new Object[aux.getEstados().size()];
                 String[] columEstados = new String[aux.getEstados().size()];
-                aux.getEstados().forEach((est)->{
+                aux.getEstados().forEach((est) -> {
                     row[index] = Utils.formatDate(est.getFecha());
                     columEstados[index] = est.getNombre();
                     index++;
@@ -140,7 +139,7 @@ public class VerInformacionOrden extends JInternalFrame {
                 scrollPaneEstados = new JScrollPane(listarEstados);//setViewportView(listarClientes);
                 scrollPaneEstados.setBounds(370, 250, 300, 60);
                 contenedor.add(scrollPaneEstados);
-                
+
                 rowData = new Object[mp.values().size()][4];
                 index = 0;
                 mp.values().forEach((dp) -> {
@@ -201,21 +200,21 @@ public class VerInformacionOrden extends JInternalFrame {
         clienteText = new JTextField();
         clienteText.setBounds(370, 170, 300, 30);
         contenedor.add(clienteText);
-        
+
         estAct = new JLabel("Estado Actual:");
         estAct.setVisible(true);
         estAct.setBounds(220, 220, 150, 10);
         contenedor.add(estAct);
-        
+
         estActText = new JTextField();
         estActText.setBounds(370, 210, 300, 30);
         contenedor.add(estActText);
-        
+
         estados = new JLabel("Estados");
         estados.setVisible(true);
         estados.setBounds(220, 260, 150, 10);
         contenedor.add(estados);
-        
+
         productos = new JLabel("Productos");
         productos.setVisible(true);
         productos.setBounds(220, 300, 150, 10);
@@ -242,6 +241,8 @@ public class VerInformacionOrden extends JInternalFrame {
         }
         cancelarBtn.setBounds(470, 430, 100, 40);
         add(cancelarBtn);
+
+        fillOrdenList();
     }
 
     private void guardarCategoria(ActionEvent evt) {
@@ -264,14 +265,24 @@ public class VerInformacionOrden extends JInternalFrame {
     private void borrarOrden(ActionEvent evt) {
         Integer nroOrden = Integer.valueOf(nroRefText.getText());
         if (JOptionPane.showConfirmDialog(this, "Esta seguro que desea cancelar la oden de compra? \nEste paso no se puede deshacer", "", JOptionPane.WARNING_MESSAGE) == 0) {
-           ProxyOrden.getInstance().agregarEstadoOrdenCancelada(nroOrden);
+            ProxyOrden.getInstance().agregarEstadoOrdenCancelada(nroOrden);
+             JOptionPane.showMessageDialog(this, "Orden Cancelada");
+           
+            fillOrdenList();
         }
     }
 
     private void fillOrdenList() {
-
+        nroRefText.setText("");
+        fechaVentaText.setText("");
+        precioTotalText.setText("");
+        clienteText.setText(" ");
+        scrollPaneTableDetail.removeAll();
+        scrollPaneTableDetail.removeAll();
+        contenedor.validate();
+        contenedor.repaint();
         DefaultListModel tes = new DefaultListModel();
-        List<DataOrdenCompra> ordenes = (modoEdicion)?ProxyOrden.getInstance().listarOrdenesAPreparar():ProxyOrden.getInstance().listarOrdenes();
+        List<DataOrdenCompra> ordenes = (modoEdicion) ? ProxyOrden.getInstance().listarOrdenesAPreparar() : ProxyOrden.getInstance().listarOrdenes();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden.getNroOrden() + " - " + Utils.formatDate(orden.getFecha()));
         });
