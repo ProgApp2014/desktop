@@ -94,6 +94,32 @@
 <part name="arg1" type="xsd:int"></part>
 </message>
 <message name="removerEspecificacionProductoResponse"></message>
+<message name="agregarEstadoOrdenRecibida">
+<part name="arg0" type="xsd:int"></part>
+<part name="arg1" type="xsd:int"></part>
+</message>
+<message name="agregarEstadoOrdenRecibidaResponse"></message>
+<message name="agregarEstadoOrdenCancelada">
+<part name="arg0" type="xsd:int"></part>
+<part name="arg1" type="xsd:int"></part>
+</message>
+<message name="agregarEstadoOrdenCanceladaResponse"></message>
+<message name="agregarEstadoOrdenConfirmada">
+<part name="arg0" type="xsd:int"></part>
+<part name="arg1" type="xsd:int"></part>
+</message>
+<message name="agregarEstadoOrdenConfirmadaResponse"></message>
+<message name="agregarEstadoOrdenPreparada">
+<part name="arg0" type="xsd:int"></part>
+<part name="arg1" type="xsd:int"></part>
+</message>
+<message name="agregarEstadoOrdenPreparadaResponse"></message>
+<message name="listarOrdenesAPreparar">
+<part name="arg0" type="xsd:int"></part>
+</message>
+<message name="listarOrdenesAPrepararResponse">
+<part name="return" type="tns:dataOrdenCompraArray"></part>
+</message>
 <message name="getId"></message>
 <message name="getIdResponse">
 <part name="return" type="xsd:int"></part>
@@ -166,6 +192,26 @@
 <operation name="removerEspecificacionProducto" parameterOrder="arg0 arg1">
 <input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/removerEspecificacionProductoRequest" message="tns:removerEspecificacionProducto"></input>
 <output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/removerEspecificacionProductoResponse" message="tns:removerEspecificacionProductoResponse"></output>
+</operation>
+<operation name="agregarEstadoOrdenRecibida" parameterOrder="arg0 arg1">
+<input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/agregarEstadoOrdenRecibidaRequest" message="tns:agregarEstadoOrdenRecibida"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/agregarEstadoOrdenRecibidaResponse" message="tns:agregarEstadoOrdenRecibidaResponse"></output>
+</operation>
+<operation name="agregarEstadoOrdenCancelada" parameterOrder="arg0 arg1">
+<input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/agregarEstadoOrdenCanceladaRequest" message="tns:agregarEstadoOrdenCancelada"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/agregarEstadoOrdenCanceladaResponse" message="tns:agregarEstadoOrdenCanceladaResponse"></output>
+</operation>
+<operation name="agregarEstadoOrdenConfirmada" parameterOrder="arg0 arg1">
+<input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/agregarEstadoOrdenConfirmadaRequest" message="tns:agregarEstadoOrdenConfirmada"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/agregarEstadoOrdenConfirmadaResponse" message="tns:agregarEstadoOrdenConfirmadaResponse"></output>
+</operation>
+<operation name="agregarEstadoOrdenPreparada" parameterOrder="arg0 arg1">
+<input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/agregarEstadoOrdenPreparadaRequest" message="tns:agregarEstadoOrdenPreparada"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/agregarEstadoOrdenPreparadaResponse" message="tns:agregarEstadoOrdenPreparadaResponse"></output>
+</operation>
+<operation name="listarOrdenesAPreparar">
+<input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarOrdenesAPrepararRequest" message="tns:listarOrdenesAPreparar"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/listarOrdenesAPrepararResponse" message="tns:listarOrdenesAPrepararResponse"></output>
 </operation>
 <operation name="getId">
 <input wsam:Action="http://Middleware.Controlador/ControladorOrdenesWS/getIdRequest" message="tns:getId"></input>
@@ -319,6 +365,51 @@
 </output>
 </operation>
 <operation name="removerEspecificacionProducto">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="agregarEstadoOrdenRecibida">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="agregarEstadoOrdenCancelada">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="agregarEstadoOrdenConfirmada">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="agregarEstadoOrdenPreparada">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="listarOrdenesAPreparar">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>

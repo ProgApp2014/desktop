@@ -114,4 +114,8 @@ public class ProxyUsuario {
     public List<DataEspecificacionProducto> listarProductosProveedor() {
         return  controlador.listarProductosProveedor( idUsuariosControlador).getItem();
     }
+
+    public void genDatosPrueba() {
+         controlador.genDatosPrueba();
+    }
 }

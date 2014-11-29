@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 package clases;
- 
+
 import controlador.middleware.ControladorOrdenesWS;
 import controlador.middleware.ControladorOrdenesWSService;
 import controlador.middleware.DataCategoria;
 import controlador.middleware.DataCliente;
 import controlador.middleware.DataEspecificacionProducto;
 import controlador.middleware.DataOrdenCompra;
+import controlador.middleware.DataOrdenCompraArray;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class ProxyOrden {
 
     public List<DataCliente> listarClientes() {
 
-        return  controlador.listarClientes(idOrdenesControlador).getItem();
+        return controlador.listarClientes(idOrdenesControlador).getItem();
 
     }
 
@@ -54,7 +55,7 @@ public class ProxyOrden {
 
     public List<DataCategoria> listarCategorias() {
 
-        return   controlador.listarCategorias(idOrdenesControlador).getItem();
+        return controlador.listarCategorias(idOrdenesControlador).getItem();
 
     }
 
@@ -64,7 +65,7 @@ public class ProxyOrden {
     }
 
     public List<DataEspecificacionProducto> listarEspecificacionProductos() {
-        return  controlador.listarEspecificacionProductos(idOrdenesControlador).getItem();
+        return controlador.listarEspecificacionProductos(idOrdenesControlador).getItem();
 
     }
 
@@ -73,7 +74,7 @@ public class ProxyOrden {
     }
 
     public List<DataEspecificacionProducto> listarProductosEnOrden() {
-        return  controlador.listarProductosEnOrden(idOrdenesControlador).getItem();
+        return controlador.listarProductosEnOrden(idOrdenesControlador).getItem();
 
     }
 
@@ -91,13 +92,17 @@ public class ProxyOrden {
         controlador.generarItemOrden(idOrdenesControlador);
     }
 
+    public List<DataEspecificacionProducto> listarProductosCategoria() {
+        return controlador.listarProductosCategoria(idOrdenesControlador).getItem();
+    }
+
     public void guardarOrden(DataOrdenCompra dataOrden) {
 
         controlador.guardarOrden(dataOrden, idOrdenesControlador);
     }
 
     public List<DataOrdenCompra> listarOrdenes() {
-        return   controlador.listarOrdenes(idOrdenesControlador).getItem();
+        return controlador.listarOrdenes(idOrdenesControlador).getItem();
 
     }
 
@@ -120,8 +125,26 @@ public class ProxyOrden {
         controlador.removerEspecificacionProducto(ref, idOrdenesControlador);
     }
 
-    public List<DataEspecificacionProducto> listarProductosCategoria() {
-     return controlador.listarProductosCategoria(idOrdenesControlador).getItem();    
+    public void agregarEstadoOrdenRecibida(Integer nroOrden) {
+        controlador.agregarEstadoOrdenRecibida(nroOrden, idOrdenesControlador);
     }
+
+    public void agregarEstadoOrdenCancelada(Integer nroOrden) {
+        controlador.agregarEstadoOrdenCancelada(nroOrden, idOrdenesControlador);
+    }
+
+    public void agregarEstadoOrdenConfirmada(Integer nroOrden) {
+        controlador.agregarEstadoOrdenConfirmada(nroOrden, idOrdenesControlador);
+    }
+
+    public void agregarEstadoOrdenPreparada(Integer nroOrden) {
+        controlador.agregarEstadoOrdenPreparada(nroOrden, idOrdenesControlador);
+    }
+
+    public DataOrdenCompraArray listarOrdenesAPreparar() {
+
+        return controlador.listarOrdenesAPreparar(idOrdenesControlador);
+    } 
+ 
 
 }

@@ -51,7 +51,9 @@
 <xs:complexType name="dataCliente">
 <xs:complexContent>
 <xs:extension base="tns:dataUsuario">
-<xs:sequence></xs:sequence>
+<xs:sequence>
+<xs:element name="recibeNotificacion" type="xs:boolean" minOccurs="0"></xs:element>
+</xs:sequence>
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
@@ -102,6 +104,16 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="dataReclamo">
+<xs:sequence>
+<xs:element name="cliente" type="tns:dataCliente" minOccurs="0"></xs:element>
+<xs:element name="especificacionProducto" type="tns:dataEspecificacionProducto" minOccurs="0"></xs:element>
+<xs:element name="fecha" type="xs:dateTime" minOccurs="0"></xs:element>
+<xs:element name="id" type="xs:int" minOccurs="0"></xs:element>
+<xs:element name="reclamo" type="xs:string" minOccurs="0"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="dataEspecificacionProductoArray" final="#all">
 <xs:sequence>
 <xs:element name="item" type="tns:dataEspecificacionProducto" minOccurs="0" maxOccurs="unbounded" nillable="true"></xs:element>
@@ -117,6 +129,12 @@
 <xs:complexType name="dataProveedorArray" final="#all">
 <xs:sequence>
 <xs:element name="item" type="tns:dataProveedor" minOccurs="0" maxOccurs="unbounded" nillable="true"></xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataReclamoArray" final="#all">
+<xs:sequence>
+<xs:element name="item" type="tns:dataReclamo" minOccurs="0" maxOccurs="unbounded" nillable="true"></xs:element>
 </xs:sequence>
 </xs:complexType>
 

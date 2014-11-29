@@ -67,7 +67,7 @@ public class CancelarOrdenDeCompra extends JInternalFrame {
         contenedor.add(elegirUsuarioLabel);
 
         DefaultListModel tes = new DefaultListModel();
-        List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenes();
+        List<DataOrdenCompra> ordenes = (List<DataOrdenCompra>) ProxyOrden.getInstance().listarOrdenesAPreparar();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden);
         });
@@ -172,8 +172,7 @@ public class CancelarOrdenDeCompra extends JInternalFrame {
     private void borrarOrden(ActionEvent evt) {
         Integer nroOrden = Integer.valueOf(nroRefText.getText());
         if (JOptionPane.showConfirmDialog(this, "Esta seguro que desea cancelar la oden de compra? \nEste paso no se puede deshacer","",JOptionPane.WARNING_MESSAGE) == 0) {
-            ProxyOrden.getInstance().elegirOrden(nroOrden);
-            ProxyOrden.getInstance().borrarOrdenCompra();
+            ProxyOrden.getInstance().agregarEstadoOrdenCancelada(nroOrden);
              dispose();
         }
     }

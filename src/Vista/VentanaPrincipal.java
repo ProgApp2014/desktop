@@ -1,5 +1,6 @@
 package Vista;
 
+import clases.ProxyUsuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
@@ -232,9 +233,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void loadTestData() {
         cargarDatosDePrueba.setEnabled(false);
-        // Utils.generarDatosDePrueba();
-        JOptionPane.showMessageDialog(this, "Se cargaron los datos de prueba", "Datos de Prueba", JOptionPane.INFORMATION_MESSAGE);
-    }
+        int val = JOptionPane.showConfirmDialog(this, "Se borraran todos los datos actuales \n y se cargaran los datos de prueba");
+  
+        if(val == 0){
+            ProxyUsuario.getInstance().genDatosPrueba();
+            JOptionPane.showMessageDialog(this, "Se cargaron los datos de prueba", "Datos de Prueba", JOptionPane.INFORMATION_MESSAGE);
+  
+        }
+      }
 
     private void altaCategoriaOptActionPerformed(java.awt.event.ActionEvent evt) {
         registrarCategoriaVentana = new RegistrarCategoriaForm();

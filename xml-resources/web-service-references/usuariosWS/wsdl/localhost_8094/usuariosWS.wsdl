@@ -98,6 +98,18 @@
 <message name="listarProductosProveedorResponse">
 <part name="return" type="tns:dataEspecificacionProductoArray"></part>
 </message>
+<message name="habilitarNotificaciones">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:int"></part>
+</message>
+<message name="habilitarNotificacionesResponse"></message>
+<message name="deshabilitarNotificaciones">
+<part name="arg0" type="xsd:string"></part>
+<part name="arg1" type="xsd:int"></part>
+</message>
+<message name="deshabilitarNotificacionesResponse"></message>
+<message name="genDatosPrueba"></message>
+<message name="genDatosPruebaResponse"></message>
 <message name="getId"></message>
 <message name="getIdResponse">
 <part name="return" type="xsd:int"></part>
@@ -166,6 +178,18 @@
 <operation name="listarProductosProveedor">
 <input wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/listarProductosProveedorRequest" message="tns:listarProductosProveedor"></input>
 <output wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/listarProductosProveedorResponse" message="tns:listarProductosProveedorResponse"></output>
+</operation>
+<operation name="habilitarNotificaciones" parameterOrder="arg0 arg1">
+<input wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/habilitarNotificacionesRequest" message="tns:habilitarNotificaciones"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/habilitarNotificacionesResponse" message="tns:habilitarNotificacionesResponse"></output>
+</operation>
+<operation name="deshabilitarNotificaciones" parameterOrder="arg0 arg1">
+<input wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/deshabilitarNotificacionesRequest" message="tns:deshabilitarNotificaciones"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/deshabilitarNotificacionesResponse" message="tns:deshabilitarNotificacionesResponse"></output>
+</operation>
+<operation name="genDatosPrueba">
+<input wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/genDatosPruebaRequest" message="tns:genDatosPrueba"></input>
+<output wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/genDatosPruebaResponse" message="tns:genDatosPruebaResponse"></output>
 </operation>
 <operation name="getId">
 <input wsam:Action="http://Middleware.Controlador/ControladorUsuariosWS/getIdRequest" message="tns:getId"></input>
@@ -310,6 +334,33 @@
 </output>
 </operation>
 <operation name="listarProductosProveedor">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="habilitarNotificaciones">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="deshabilitarNotificaciones">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</input>
+<output>
+<soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>
+</output>
+</operation>
+<operation name="genDatosPrueba">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal" namespace="http://Middleware.Controlador/"></soap:body>

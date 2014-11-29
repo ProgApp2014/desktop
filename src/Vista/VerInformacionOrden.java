@@ -54,11 +54,15 @@ public class VerInformacionOrden extends JInternalFrame {
     private final JTextField fechaVentaText;
     private final JButton borrarBtn;
     private boolean modoEdicion;
+    private final JLabel estAct;
+    private final JTextField estActText;
+    private final JLabel estados;
+    private JScrollPane scrollPaneEstados;
 
     public VerInformacionOrden(boolean modoEdicion) {
 
         this.modoEdicion = modoEdicion;
-        setBounds(50, 50, 700, 600);
+        setBounds(50, 50, 1000, 600);
         setVisible(true);
         setLayout(null);
         contenedor = new JPanel();
@@ -78,9 +82,11 @@ public class VerInformacionOrden extends JInternalFrame {
         ordenList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         ordenList.setBounds(0, 50, 200, 300);
         scrollPaneTableDetail = new JScrollPane();
+        scrollPaneEstados = new JScrollPane();
         ordenList.addListSelectionListener(new ListSelectionListener() {
             private Object[][] rowData;
             private int index;
+            private JTable listarEstados;
 
             @Override
             public void valueChanged(ListSelectionEvent evt) {
@@ -102,6 +108,7 @@ public class VerInformacionOrden extends JInternalFrame {
                 fechaVentaText.setText(Utils.formatDate(aux.getFecha()));
                 precioTotalText.setText(String.valueOf(aux.getPrecioTotal()));
                 clienteText.setText(aux.getClienteCompraProducto().get(0).getCliente().getNickname());
+                estActText.setText(aux.getEstadoActualTexto());
                 DefaultListModel<String> tes2 = new DefaultListModel<String>();
                 List<DataEspecificacionProducto> productosLst = ProxyOrden.getInstance().listarProductosEnOrden();
                 HashMap<String, DatosProducto> mp = new HashMap();
@@ -114,6 +121,25 @@ public class VerInformacionOrden extends JInternalFrame {
                         mp.get(producto.getNroReferencia()).incrementar();
                     }
                 });
+                
+                index = 0;
+                rowData = new Object[1][aux.getEstados().size()];
+                Object[] row =  new Object[aux.getEstados().size()];
+                String[] columEstados = new String[aux.getEstados().size()];
+                aux.getEstados().forEach((est)->{
+                    row[index] = Utils.formatDate(est.getFecha());
+                    columEstados[index] = est.getNombre();
+                    index++;
+                });
+                rowData[0] = row;
+                scrollPaneEstados.removeAll();
+                listarEstados = new JTable(rowData, columEstados);
+                listarEstados.setPreferredScrollableViewportSize(new Dimension(300, 50));
+                listarEstados.setFillsViewportHeight(true);
+                scrollPaneEstados = new JScrollPane(listarEstados);//setViewportView(listarClientes);
+                scrollPaneEstados.setBounds(370, 250, 300, 60);
+                contenedor.add(scrollPaneEstados);
+                
                 rowData = new Object[mp.values().size()][4];
                 index = 0;
                 mp.values().forEach((dp) -> {
@@ -128,7 +154,7 @@ public class VerInformacionOrden extends JInternalFrame {
                 listarClientes.setPreferredScrollableViewportSize(new Dimension(440, 100));
                 listarClientes.setFillsViewportHeight(true);
                 scrollPaneTableDetail = new JScrollPane(listarClientes);//setViewportView(listarClientes);
-                scrollPaneTableDetail.setBounds(230, 250, 440, 120);
+                scrollPaneTableDetail.setBounds(230, 310, 440, 120);
                 contenedor.add(scrollPaneTableDetail);
                 contenedor.validate();
                 contenedor.repaint();
@@ -174,10 +200,24 @@ public class VerInformacionOrden extends JInternalFrame {
         clienteText = new JTextField();
         clienteText.setBounds(370, 170, 300, 30);
         contenedor.add(clienteText);
-
+        
+        estAct = new JLabel("Estado Actual:");
+        estAct.setVisible(true);
+        estAct.setBounds(220, 220, 150, 10);
+        contenedor.add(estAct);
+        
+        estActText = new JTextField();
+        estActText.setBounds(370, 210, 300, 30);
+        contenedor.add(estActText);
+        
+        estados = new JLabel("Estados");
+        estados.setVisible(true);
+        estados.setBounds(220, 260, 150, 10);
+        contenedor.add(estados);
+        
         productos = new JLabel("Productos");
         productos.setVisible(true);
-        productos.setBounds(220, 220, 150, 10);
+        productos.setBounds(220, 300, 150, 10);
         contenedor.add(productos);
 
         cancelarBtn = new JButton("Cancelar");
@@ -234,7 +274,7 @@ public class VerInformacionOrden extends JInternalFrame {
         DefaultListModel tes = new DefaultListModel();
         List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenes();
         ordenes.stream().forEach((orden) -> {
-            tes.addElement(orden.getNroOrden() + " - " + orden.getFecha());
+            tes.addElement(orden.getNroOrden() + " - " + Utils.formatDate(orden.getFecha()));
         });
 
         ordenList.setModel(tes);

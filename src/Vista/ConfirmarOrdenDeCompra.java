@@ -53,7 +53,7 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
     private JScrollPane scrollPaneTableDetail;
     private final JTextField fechaVentaText; 
     private boolean modoEdicion;
-
+    private int ordenId;
     public ConfirmarOrdenDeCompra() {
         this.modoEdicion = false;
         setBounds(50, 50, 700, 600);
@@ -79,6 +79,7 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
         ordenList.addListSelectionListener(new ListSelectionListener() {
             private Object[][] rowData;
             private int index;
+            
 
             @Override
             public void valueChanged(ListSelectionEvent evt) {
@@ -86,7 +87,7 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
                     return;
                 }
 
-                Integer ordenId = Integer.parseInt(ordenList.getSelectedValue().split("-")[0].trim());
+                ordenId = Integer.parseInt(ordenList.getSelectedValue().split("-")[0].trim());
                 DataOrdenCompra aux = null;
                 Iterator it = ProxyOrden.getInstance().listarOrdenes().iterator();
                 while (it.hasNext()) {
@@ -201,17 +202,8 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
         add(cancelarBtn);
     }
 
-    private void guardarCategoria(ActionEvent evt) {
-        Integer nroOrden = Integer.valueOf(nroRefText.getText());
-
-        ProxyOrden.getInstance().elegirOrden(nroOrden);
-        ProxyOrden.getInstance().borrarOrdenCompra();
-        setVisible(false);
-        nroRefText.setText("");
-    }
-
     private void confirmar(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ProxyOrden.getInstance().agregarEstadoOrdenPreparada(ordenId);
     }
 
     private void cancelar(ActionEvent evt) {
@@ -234,7 +226,7 @@ public class ConfirmarOrdenDeCompra extends JInternalFrame {
     private void fillOrdenList() {
 
         DefaultListModel tes = new DefaultListModel();
-        List<DataOrdenCompra> ordenes = ProxyOrden.getInstance().listarOrdenes();
+        List<DataOrdenCompra> ordenes = (List<DataOrdenCompra>) ProxyOrden.getInstance().listarOrdenesAPreparar();
         ordenes.stream().forEach((orden) -> {
             tes.addElement(orden.getNroOrden() + " - " + Utils.formatDate(orden.getFecha()));
         });
